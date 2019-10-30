@@ -2,6 +2,11 @@
   text-align: center;
 }
 
+.App-img {
+  margin-top: 30px;
+  margin-bottom: 16px;
+}
+
 .App-logo {
   height: 40vmin;
 }
@@ -17,6 +22,82 @@
   color: white;
 }
 
+.Search-header {
+  min-height: 10vh;
+  justify-content: center;
+  color: white;
+}
+
+.Login-design {
+  width: 500px;
+  background: green;
+  display: flex;
+  /*meletakkan form ke tengah*/
+  margin: 80px auto;
+  padding: 30px 20px;
+}
+
+.space-button{ 
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.button_login {
+  background: #46de4b;
+  color: white;
+  font-size: 20pt;
+  width: 100%;
+  border: none;
+  border-radius: 3px;
+  padding: 10px 20px;
+}
+
 .App-link {
   color: #09d3ac;
+}
+
+.slider-container {
+  width: 100%;
+  height: 100%;
+  
+  /* Add this */
+  position:fixed;
+  top:0;
+  left:0;
+  
+  }
+
+.search-sec{
+    background: rgb(255, 255, 255);
+    padding: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.search-slt{
+    display: block;
+    width: 100%;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: #55595c;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    height: calc(3rem + 2px) !important;
+    border-radius:0;
+}
+.wrn-btn{
+    width: 100%;
+    font-size: 16px;
+    font-weight: 400;
+    text-transform: capitalize;
+     height: calc(3rem + 2px) !important;
+     border-radius:0;
+}
+
+.margin-form{
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
