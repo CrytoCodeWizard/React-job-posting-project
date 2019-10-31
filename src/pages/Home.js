@@ -6,7 +6,7 @@ import {BrowserRouter,Route,Switch,Link} from 'react-router-dom'
 import { Component } from 'react'
 import axios from 'axios'
 
-import Search from './../components/Search'
+
 import Content from './../components/Content'
 import JobItems from './../components/JobItems'
 import Footer from './../components/Footer'
@@ -45,6 +45,7 @@ goToDetail = (id)=>{
 }
 
   render() {
+    console.log(this.props.history)
     const { data, previous, next, isLoading, isError } = this.state;
     return (
       <div className="bg-dark">   
@@ -52,29 +53,9 @@ goToDetail = (id)=>{
      
      {/* Header */}
       <Content/>
-      
-      
-  
+
       <Container>
-      <Search/>  
-      {/* Content */}
-
-        {/* <Row className='justify-content-md-center'>
-        {this.state.isLoading&&(
-          <Col>Loading...</Col>
-        )}
-        {!this.state.isLoading&&
-          <React.Fragment>
-            {this.state.data.data.map((v,i)=>(
-              <Col sm={{size:'auto'}} key={i.toString()}>
-                <div className='text-center'>{v.name}</div>
-              </Col>
-            ))}
-          </React.Fragment>
-        }
-        </Row> */}
-
-      {/* footer  */}
+      
       <JobItems/>
 
       </Container>

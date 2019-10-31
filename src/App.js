@@ -7,11 +7,11 @@ import { Container, Row, Col } from 'reactstrap';
 
 import Home from './pages/Home'
 import About from './pages/About'
-import Contact from './pages/Contact'
 import PostJobs from './pages/PostJobs'
 import Login from './pages/Login'
 import Blog from './pages/Blog'
 import Signup from './pages/Signup'
+import Detail from './pages/Detail'
 import Pic1 from './images/jobpic.png'
 
 class App extends Component {
@@ -27,12 +27,15 @@ class App extends Component {
         <Navbar/>
         
         <Switch>
+
         <Route path={"/home"} component={Home} />
         <Route path={"/blog"} component={Blog} />
         <Route path={"/postjobs"} component={PostJobs} />
         <Route path={"/about"} component={About} />
         <Route path={"/login"} component={Login} />
         <Route path={"/signup"} component={Signup} />
+        <Route path={"/detail/:id"} component={Detail} />
+        
         </Switch>
         
         </BrowserRouter>
