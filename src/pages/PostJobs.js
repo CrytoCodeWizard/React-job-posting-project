@@ -14,13 +14,13 @@ const Signup = (props) => {
      <BrowserRouter>
      <div>
       <Breadcrumb tag="nav" listTag="div">
-      <BreadcrumbItem tag="a" href="#"><Link to='/crudcompany'>Job</Link></BreadcrumbItem>
-        <BreadcrumbItem tag="a" href="#"><Link to='/crudjob'>Company</Link></BreadcrumbItem>
+      <BreadcrumbItem tag="a" href="#"><Link to='/postjobs/crudjob'>Job</Link></BreadcrumbItem>
+        <BreadcrumbItem tag="a" href="#"><Link to='/postjobs/crudcompany'>Company</Link></BreadcrumbItem>
       </Breadcrumb>
     </div>  
     <Switch>
-        <Route path={'/crudcompany'} component={CrudCompany}></Route>
-        <Route path={'/crudjob'} component={CrudJob}></Route>
+        <Route path={'/postjobs/crudcompany'} component={CrudCompany}></Route>
+        <Route path={'/postjobs/crudjob'} component={CrudJob}></Route>
     </Switch>
     </BrowserRouter>
     <Footer/>
