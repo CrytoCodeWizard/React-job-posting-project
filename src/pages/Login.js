@@ -52,8 +52,10 @@ export default class Login extends Component {
           this.props.history.push('/home');
           localStorage.setItem('Authorization',res.token)
           // window.location.reload()
+          alert('Succes to Login')
         }
       }).catch((err) => {
+        alert('Email or Password is incorrect')
         console.log(err)
         return
       })

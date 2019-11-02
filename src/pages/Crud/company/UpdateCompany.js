@@ -96,13 +96,13 @@ export default class UpdateCompany extends Component {
         </React.Fragment>
     )}
     <Container>  
-    <Label for="register" className='button_login text-center'>EDIT COMPANY</Label>
+    <Label for="updatecompany" className='button_login text-center'>EDIT COMPANY</Label>
     <br></br>
     {this.state.data.id&&(
-    <Form id="register" method="post" onSubmit ={this.handleSubmit}>
+    <Form id="updatecompany" method="post" onSubmit ={this.handleSubmit}>
     <FormGroup>
         <Label for="name">Name</Label>
-        <Input type="text" name="name" id="name" onChange={this.handlenameChange} value={this.state.data.name} placeholder="Enter your name" required/>
+        <Input type="text" name="name" id="name" value={this.state.data.name} onChange={this.handlenameChange}  placeholder="Enter your name" required/>
       </FormGroup>
       <FormGroup>
         <Label for="logo">Logo</Label>
