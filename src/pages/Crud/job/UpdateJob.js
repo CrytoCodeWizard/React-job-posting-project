@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { Button, Form, FormGroup, Label, Input, FormText,Spinner } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input,Spinner } from 'reactstrap';
 import { Container, Row, Col } from 'reactstrap';
 
 export default class UpdateJob extends Component {
@@ -14,19 +14,31 @@ export default class UpdateJob extends Component {
       id_category : '',
       salary : '',
       location : '',
-      id_company: ''
+      id_company: '',
+      id : this.props.match.params.id
     }
   }
  
   componentDidMount(){
-    axios.get('http://localhost:2000/job/'+ this.props.match.params.id).then(res=>{
-      this.setState({data: res.data.data[0]})
-      console.log(res.data.data)
+    console.log(this.state.id)
+    this.getData()
+  }
+
+  getData = () => {
+    axios.get('http://localhost:2000/job/'+ this.state.id).then(res=>{
+      for(let i = 0; i<res.data.data.length; i++){
+        if(res.data.data[i].id === this.state.id){  
+          this.setState({
+            data : res.data.data[i]
+          })
+        }
+      }
     })
   }
 
-  UpdateJob = async(dataJob) => {
-    const user = await axios.patch('http://localhost:2000/job',(dataJob))
+  
+  UpdateJob = async(id,dataJob) => {
+    const user = await axios.patch(`http://localhost:2000/job/${id}`,(dataJob))
     return user.data 
    }
  
@@ -57,6 +69,8 @@ export default class UpdateJob extends Component {
    handleSubmit = event => {
      event.preventDefault();
  
+     const id = this.state.id
+
      const dataJob = {
        name : this.state.name,
        description: this.state.description,
@@ -66,7 +80,7 @@ export default class UpdateJob extends Component {
        id_company : this.state.id_company
      };
  
-     this.UpdateJob(dataJob)
+     this.UpdateJob(id,dataJob)
        .then(res => {
          console.log(res.status);
          console.log(res.data)
@@ -93,27 +107,27 @@ export default class UpdateJob extends Component {
     <Form id="register" method="post" onSubmit ={this.handleSubmit}>
     <FormGroup>
         <Label for="name">Name</Label>
-        <Input type="text" name="name" id="name" onChange={this.handlenameChange}  value={this.state.data.name} placeholder="Enter your name" required/>
+        <Input type="text" name="name" id="name" onChange={this.handlenameChange}  defaultValue={this.state.data.name} placeholder="Enter your name" required/>
       </FormGroup>
       <FormGroup>
         <Label for="description">Description</Label>
-        <Input type="textarea" name="description" id="description" onChange={this.handleDescriptionChange} value={this.state.data.description} placeholder="Enter your job description" required/>
+        <Input type="textarea" name="description" id="description" onChange={this.handleDescriptionChange} defaultValue={this.state.data.description} placeholder="Enter your job description" required/>
       </FormGroup>
       <FormGroup>
         <Label for="id_category">ID Category</Label>
-        <Input type="number" name="id_category" id="id_category" onChange={this.handleCategoryChange} value={this.state.data.id_category} placeholder="Enter your id category" required/>
+        <Input type="number" name="id_category" id="id_category" onChange={this.handleCategoryChange} defaultValue={this.state.data.id_category} placeholder="Enter your id category" required/>
       </FormGroup>
       <FormGroup>
         <Label for="salary">Salary</Label>
-        <Input type="number" name="salary" id="salary" onChange={this.handleSalaryChange} value={this.state.data.salary} placeholder="Enter your salary" required/>
+        <Input type="number" name="salary" id="salary" onChange={this.handleSalaryChange} defaultValue={this.state.data.salary} placeholder="Enter your salary" required/>
       </FormGroup>
       <FormGroup>
         <Label for="location">Location</Label>
-        <Input type="text" name="location" id="location" onChange={this.handleLocationChange} value={this.state.data.location} placeholder="Enter your salary" required/>
+        <Input type="text" name="location" id="location" onChange={this.handleLocationChange} defaultValue={this.state.data.location} placeholder="Enter your salary" required/>
       </FormGroup>
       <FormGroup>
         <Label for="id_company">ID Company</Label>
-        <Input type="text" name="id_company" id="id_company" onChange={this.handleCompanyChange} value={this.state.data.company} placeholder="Enter your salary" required/>
+        <Input type="text" name="id_company" id="id_company" onChange={this.handleCompanyChange} defaultValue={this.state.data.company} placeholder="Enter your salary" required/>
       </FormGroup>
       <Button className='button_login bg-success'>Submit</Button>
     </Form>

@@ -1,34 +1,32 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {Component} from 'react'
-import {BrowserRouter,Route,Switch,Link} from 'react-router-dom'
+import {BrowserRouter,Route,Switch,withRouter,Link} from 'react-router-dom'
 import axios from 'axios'
 import {
-    Spinner,Button
+    Spinner,Button, Modal, ModalHeader, ModalBody
   } from 'reactstrap';
-import { Container, Row,Collapse, CardBody, Card } from 'reactstrap';
-import {  Form, FormGroup, Label, Input, FormText } from 'reactstrap';
-
-import AddJob from './job/AddJob' 
+import { Container } from 'reactstrap';
+import {  Form, FormGroup, Label, Input} from 'reactstrap';
 import UpdateJob from './job/UpdateJob' 
 
-export default class CrudJob extends Component {
+class CrudJob extends Component {
     constructor(props){
         super(props)
         this.state = {
             isOpen : false,
+            isUpdateOpen : false,
             data : {},
             isLoading : true,
             next: false,
             previous: '',
             tot : '',
-            mQuery : '',
-            queryName : '',
-            queryCompany : ''
         }
     }
 
     toggle = () => {
-      this.setState({isOpen : !this.state.isOpen})
+      this.setState({
+        isOpen : !this.state.isOpen,
+      })
     }
 
     componentDidMount(){
@@ -37,51 +35,13 @@ export default class CrudJob extends Component {
 
       goToUpdate = (id)=>{
         this.props.history.push('/postjobs/crudjob/updatejob/'+ id)
+        this.setState({isOpen : false , isUpdateOpen : !this.state.isUpdateOpen})
       }
   
       buttonPress = async(page)=>{
         this.setState({isLoading:false}) 
         this.getData()
       }  
-  
-      queryNameChange = (e)=>{
-        const queryName = e.target.value
-        this.setState({queryName})
-      }
-      queryCompanyChange = (e)=>{
-        const queryCompany = e.target.value
-        this.setState({queryCompany})
-      }
-    
-      doSearch = async(nWord,cWord)=>{
-       let page='http://localhost:2000/job?name='+nWord+'&company='+cWord;
-        this.setState({isLoading:true})
-        this.getData(page).then(data=>{
-          this.setState({data,
-            previous: data.prev,
-            next: data.next,
-            isLoading:false})
-        })
-      }
-  
-      mQueryOrderByChange = (e)=>{
-        const mQuery = e.target.value
-        this.setState({mQuery})
-      }
-  
-      doOrderBy = async(mQuery) => {
-        let url=`http://localhost:2000/job?orderby=${mQuery}`
-        this.setState({isLoading:true})
-        this.getData(url).then(res=>{
-          this.setState({
-            previous: res.prev,
-            next: res.next,
-            isLoading:false})
-        }).catch(err => {
-          console.log(err)
-        })
-        console.log(mQuery)
-      }
 
       getData = ()=>{
         axios.get('http://localhost:2000/job').then(res => {
@@ -160,24 +120,21 @@ export default class CrudJob extends Component {
     return (
         <div>
        <Container>
-        <BrowserRouter>
-        {/* <Link to='/postjobs/crudjob/addjob'>
-        
-        </Link> */}
-        <Switch>
-        {/* <Route path={'/postjobs/crudjob/addjob'} component={AddJob}></Route> */}
-        <Route path={'/postjobs/crudjob/updatejob/:id'} component={UpdateJob} exact/>
-        </Switch>   
         
         <button type="button" onClick={this.toggle} className="btn btn-primary" data-toggle="modal" style={{ marginLeft : '30px', marginTop : '10px', marginBottom : '10px' }}>
-        Add Data
+        <i className="fa fa-plus-square"> Add Data</i>
         </button>
-
-        {this.state.isOpen&&( <div className='Login-design text-dark shadow p-3 mb-5'>
-    <Container>  
-    <Label for="register" className='button_login text-center'>ADD JOB</Label>
-    <br></br>
-    <Form id="register" method="post" onSubmit ={this.handleSubmit}>
+        <BrowserRouter>
+        <Switch>
+        <Route path='/postjobs/crudjob/updatejob/:id' component={UpdateJob}/>
+        </Switch>   
+      </BrowserRouter>
+    {this.state.isOpen&&( 
+      <Modal isOpen={this.state.isOpen} toggle={this.toggle} className="">
+        <ModalHeader toggle={this.toggle}>ADD JOB</ModalHeader>
+        <ModalBody>
+        <br></br>
+        <Form id="register" method="post" onSubmit ={this.handleSubmit}>
     <FormGroup>
         <Label for="name">Name</Label>
         <Input type="text" name="name" id="name" onChange={this.handlenameChange} placeholder="Enter your name" required/>
@@ -204,10 +161,12 @@ export default class CrudJob extends Component {
       </FormGroup>
       <Button className='button_login bg-success'>Submit</Button>
     </Form>
-    </Container>
-    </div> )}
+        </ModalBody>
+      </Modal>
 
-                  {
+        )}
+
+      {
         this.state.isLoading&&(
         <div><Spinner style={{ width: '3rem', height: '3rem' }} type="grow" /></div>
       )}
@@ -219,7 +178,6 @@ export default class CrudJob extends Component {
       this.state.data.data.map((v,i)=>(  
 
     <div className="row no-gutters shadow-lg p-3 mb-5 bg-white rounded" key={i.toString()} >
-      {/*  */}
     <div className="col-md-4">
       <img  src={v.logo} className="card-img App-img" alt={v.name} width="120px" height="160px"/>
     </div>
@@ -230,8 +188,8 @@ export default class CrudJob extends Component {
         <p className="card-text"><small className="text-muted">{v.company}</small> | <small className="text-muted">Rp.{v.salary}</small> | <small className="text-muted">{v.location}</small></p>
         <p className="card-text">{v.description}</p>
         <p className="card-text"><small className="text-muted">{v.date_updated}</small></p>
-        <Link to={'/postjobs/crudjob/updatejob/' + v.id}><Button className="card-text bg-success"  onClick={()=> this.goToUpdate(v.id)}>Update</Button></Link>
-        <Button className="card-text bg-danger"style={{ marginLeft : '10px' }} onClick={()=> this.deleteData(v.id)}>Delete</Button>
+        <Link to={'/postjobs/crudjob/updatejob/' + v.id}><Button className="card-text bg-success"  onClick={()=> this.goToUpdate(v.id)}><i className="fa fa-edit"> Update </i></Button></Link>
+        <Button className="card-text bg-danger"style={{ marginLeft : '10px' }} onClick={()=> this.deleteData(v.id)}><i className="fa fa-trash"> Delete </i></Button>
       </div>
     </div>
 
@@ -240,7 +198,7 @@ export default class CrudJob extends Component {
   </React.Fragment>
 
 }
-</BrowserRouter>
+
 <nav aria-label="Page navigation example">
     <ul className="pagination justify-content-center">
     {
@@ -263,3 +221,4 @@ export default class CrudJob extends Component {
     )
     }
 }
+export default withRouter( CrudJob)

@@ -100,7 +100,7 @@ class JobItems extends Component{
 
 render() {
   
-  const {data,queryName,queryCompany,orderby,isLoading,next,previous,mQuery} = this.state
+  const {queryName,queryCompany,mQuery} = this.state
   return (
     
     <div>
@@ -140,7 +140,7 @@ render() {
     <div className="row no-gutters shadow-lg p-3 mb-5 bg-white rounded" key={i.toString()} >
       {/*  */}
     <div className="col-md-4">
-      <img  src={v.logo} className="card-img App-img" alt={v.name} width="120px" height="160px"/>
+      <img  src={v.logo} className="card-img App-img" alt={v.name} width="120px" height="160px" onClick={()=>this.goToDetail(v.id)}/>
     </div>
     
       <div className="col-md-8">

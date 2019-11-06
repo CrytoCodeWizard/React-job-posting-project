@@ -1,17 +1,26 @@
-import React from 'react';
+import React,{Component} from 'react';
 import { BrowserRouter,Route,Switch,Link } from 'react-router-dom'
-import { Col, Button, Form, FormGroup, Label, Input, FormText,Card,  Breadcrumb, BreadcrumbItem} from 'reactstrap';
-import { Container, Row } from 'reactstrap';
+import {  Breadcrumb, BreadcrumbItem} from 'reactstrap';
 
 import CrudCompany from './Crud/CrudCompany'
 import CrudJob from './Crud/CrudJob'
 import Footer from './../components/Footer'
 
-const Signup = (props) => {
+class PostJobs extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+
+    }
+  }
+
+  render(){
   return (
     
     <div>
+
      <BrowserRouter>
+
      <div>
       <Breadcrumb tag="nav" listTag="div">
       <BreadcrumbItem tag="a" ><Link to='/postjobs/crudjob'>Job</Link></BreadcrumbItem>
@@ -30,5 +39,5 @@ const Signup = (props) => {
     
   );
 }
-
-export default Signup;
+}
+export default PostJobs;

@@ -38,7 +38,7 @@ class Navbar extends Component {
   removeToken = () => {
     localStorage.removeItem('Authorization')
     this.props.history.push('/login')
-    // window.location.reload()
+    window.location.reload()
   }
   render(){
     return (
@@ -85,9 +85,7 @@ class Navbar extends Component {
    <li className="nav-item">
    <Link to='/about' className="nav-link  text-light" href="#">About</Link>
    </li>
-   {/* <li className="nav-item">
-   <Link to='/about' className="nav-link  text-light" href="#">About</Link>
-   </li> */}
+
      </ul>
    <div className="my-2 my-lg-0">
    <Link to='/postjobs/crudjob' className="btn btn-danger btn-sm">Post Jobs</Link>  

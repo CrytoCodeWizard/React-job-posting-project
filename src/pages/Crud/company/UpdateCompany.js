@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import { Link } from 'react-router-dom';
-import axios , { post } from 'axios';
-import { Button, Form, FormGroup, Label, Input, FormText,Spinner } from 'reactstrap';
-import { Container, Row, Col } from 'reactstrap';
+import axios from 'axios';
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Container} from 'reactstrap';
 
 export default class UpdateCompany extends Component {
   constructor(props){
@@ -13,19 +12,20 @@ export default class UpdateCompany extends Component {
       logo : '',
       description : '',
       location : '',
+      id : props.match.params.id
     }
 
   }
 
   componentWillMount(){
-    axios.get('http://localhost:2000/company/'+ this.props.match.params.id).then(res=>{
+    axios.get('http://localhost:2000/company/'+ this.state.id).then(res=>{
       this.setState({data: res.data.data[0]})
       console.log(res.data.data[0])
     })
   }
  
-  updateCompany = async(datacompany) => {
-    const user = await axios.patch('http://localhost:2000/company',(datacompany))
+  updateCompany = async(id,datacompany) => {
+    const user = await axios.patch(`http://localhost:2000/company/${id}`,(datacompany))
     return user.data 
    }
  
@@ -48,13 +48,16 @@ export default class UpdateCompany extends Component {
    handleSubmit = event => {
      event.preventDefault();
  
+    const id = this.state.id
+
     const formData = new FormData();
-    formData.append('name',this.handlenameChange)
-    formData.append('logo', this.handleLogoChange)
-    formData.append('location', this.handleLocationChange)
-    formData.append('description', this.handleDescriptionChange)
+    formData.append('name',event.target.name.value)
+    formData.append('logo', event.target.logo.files[0])
+    formData.append('location', event.target.location.value)
+    formData.append('description', event.target.description.value)
  
-     this.updateCompany(formData)
+  
+     this.updateCompany(id,formData)
        .then(res => {
          console.log(res.status);
          console.log(res.data)
@@ -74,19 +77,19 @@ export default class UpdateCompany extends Component {
     <Form id="updatecompany" method="post" onSubmit ={this.handleSubmit}>
     <FormGroup>
         <Label for="name">Name</Label>
-        <Input type="text" name="name" id="name" value={this.state.data.name} onChange={this.handlenameChange}  placeholder="Enter your name" required/>
+        <Input type="text" name="name" id="name" defaultValue={this.state.data.name} onChange={this.handlenameChange}  placeholder="Enter your name" required/>
       </FormGroup>
       <FormGroup>
         <Label for="logo">Logo</Label>
-        <Input type="file" name="logo" id="logo" onChange={this.handleLogoChange} placeholder="Enter your Logo" required/>
+        <Input type="file" name="logo" id="logo" onChange={this.handleLogoChange} defaultValue={this.state.data.logo} placeholder="Enter your Logo" required/>
       </FormGroup>
       <FormGroup>
         <Label for="location">Location</Label>
-        <Input type="text" name="location" id="location" onChange={this.handleLocationChange} value={this.state.data.location} placeholder="Enter your location" required/>
+        <Input type="text" name="location" id="location" onChange={this.handleLocationChange} defaultValue={this.state.data.location} placeholder="Enter your location" required/>
       </FormGroup>
       <FormGroup>
         <Label for="description">Description</Label>
-        <Input type="textarea" name="description" id="description" onChange={this.handleDescriptionChange} value={this.state.data.description} placeholder="Enter your company description" required/>
+        <Input type="textarea" name="description" id="description" onChange={this.handleDescriptionChange} defaultValue={this.state.data.description} placeholder="Enter your company description" required/>
       </FormGroup>
       <Button className='button_login bg-success'>Submit</Button>
     </Form>

@@ -51,7 +51,7 @@ export default class Login extends Component {
           alert('Succes to Login')
           this.props.history.push(`postjobs/crudjob`);
           
-          // window.location.reload()
+          window.location.reload()
         }
       }).catch((err) => {
         alert('Email or Password is incorrect')

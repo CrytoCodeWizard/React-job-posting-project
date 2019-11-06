@@ -31,16 +31,16 @@ class App extends Component {
         
         <Switch>
 
-        <Route path={"/"} component={Home} exact />
-        <Route path={"/blog"} component={Blog} exact />
-        <Route path={"/postjobs"} component={PostJobs} />
+        <Route path="/" exact component={Home} />
+        <Route path="/blog" component={Blog} />
+        <Route path="/postjobs" component={PostJobs} />
 
-        <Route path={"/findjobs"} component={FindJobs} exact />
-        <Route path={"/about"} component={About} exact />
-        <Route path={"/login"} component={Login} exact />
-        <Route path={"/signup"} component={Signup} exact />
-        <Route path={"/signupcompany"} component={SignUpCompany} exact />
-        <Route path='/detail/:id' component={Detail} exact />
+        <Route path="/findjobs" component={FindJobs}  />
+        <Route path="/about" component={About} />
+        <Route path="/login" component={Login}  />
+        <Route path="/signup" component={Signup} />
+        <Route path="/signupcompany" component={SignUpCompany} />
+        <Route path="/detail/:id" component={Detail} />
         <Route component={ErroPage}/>
         </Switch>
         

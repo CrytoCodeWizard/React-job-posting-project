@@ -18,12 +18,20 @@ export default class Detail extends Component {
       }
       
       componentDidMount(){
-        axios.get('http://localhost:2000/job/'+ this.state.id).then(res=>{
-          this.setState({data: res.data.data[0]})
-          console.log(res.data.data[0])
-        })
+        this.getData()
       }
 
+      getData = () => {
+        axios.get('http://localhost:2000/job/'+ this.state.id).then(res=>{
+        for(let i = 0; i<res.data.data.length; i++){
+        if(res.data.data[i].id === this.state.id){  
+          this.setState({
+            data : res.data.data[i]
+          })
+        }
+      } 
+        })
+      }
 
       render() {
         return (
@@ -36,14 +44,13 @@ export default class Detail extends Component {
             {this.state.data.id&&(
               <div>
                <div>
-                <Jumbotron fluid style={{ backgroundImage: `url(${this.state.data.logo})`, backgroundSize: 'cover'  }}>
+              <Jumbotron fluid style={{ backgroundImage: `url(${this.state.data.logo})`, backgroundSize: 'cover' ,height: '500px' }}>
                 <Container fluid>
-                <img src={this.state.data.logo} alt="" width="200px" className="image-center shadow-lg p-3 mb-5 bg-white rounded"/>
+                <img src={this.state.data.logo} alt="" width="100px" height="400px" className="image-center shadow-lg p-3 mb-5 bg-white rounded"/>
                 
                 </Container>
-                {console.log(this.state.data.id)}
                 
-                </Jumbotron>
+              </Jumbotron>
               </div>
               <Container>
               <h1 className="display-3 text-center">{this.state.data.company}</h1>

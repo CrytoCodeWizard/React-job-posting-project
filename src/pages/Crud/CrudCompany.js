@@ -5,9 +5,7 @@ import axios from 'axios'
 import {
     Spinner,Button,Container
   } from 'reactstrap';
-  import { Form, FormGroup, Label, Input} from 'reactstrap';
-
-import AddCompany from './company/AddCompany' 
+  import { Form, FormGroup, Label, Input , Modal, ModalHeader, ModalBody} from 'reactstrap';
 import UpdateCompany from './company/UpdateCompany' 
 
 export default class CrudCompany extends Component {
@@ -15,6 +13,7 @@ export default class CrudCompany extends Component {
         super(props)
         this.state = {
             isOpen : false,
+            isOpenUpdate : false,
             data : {},
             isLoading : true,
             next: false,
@@ -28,6 +27,10 @@ export default class CrudCompany extends Component {
 
     toggle = () => {
       this.setState({isOpen : !this.state.isOpen})
+    }
+
+    toggleUpdate = () => {
+      this.setState({})
     }
 
     componentDidMount(){
@@ -50,9 +53,7 @@ export default class CrudCompany extends Component {
         
       }
   
-      goToUpdate = (id)=>{
-        this.props.history.push('/postjobs/crudcompany/updatecompany/'+ id)
-      }
+      
   
       buttonPress = async(page)=>{
         this.setState({isLoading:false}) 
@@ -60,6 +61,43 @@ export default class CrudCompany extends Component {
           this.setState({data,isLoading:false})
         })
       }  
+
+      //update
+
+      goToUpdate = (id)=>{
+        this.setState({isOpenUpdate : !this.state.isOpen})
+      }
+
+      updateCompany = async(id,datacompany) => {
+        const user = await axios.patch(`http://localhost:2000/company/${id}`,(datacompany))
+        return user.data 
+       }
+
+       handleSubmitUpdate = event => {
+        event.preventDefault();
+    
+       const id = this.state.id
+   
+       const formData = new FormData();
+       formData.append('name',event.target.name.value)
+       formData.append('logo', event.target.logo.files[0])
+       formData.append('location', event.target.location.value)
+       formData.append('description', event.target.description.value)
+    
+     
+        this.updateCompany(id,formData)
+          .then(res => {
+            console.log(res.status);
+            console.log(res.data)
+          }).catch((err) => {
+            console.log(err)
+            return
+          })
+      }
+      
+      
+      //end update
+
 
       //add data
       addCompany = async(datacompany) => {
@@ -114,19 +152,14 @@ export default class CrudCompany extends Component {
     return (
         <div>
           <Container>
-          <BrowserRouter>
-
         <button type="button" className="btn btn-primary"  onClick={this.toggle} data-toggle="modal" style={{ marginLeft : '30px', marginTop : '10px', marginBottom : '10px' }}>
-        Add Data
+        <i className="fa fa-plus-square"> Add Data</i>
         </button>
-        <Switch>
-        <Route path={'/postjobs/crudcompany/updatecompany/:id'} component={UpdateCompany}></Route>
-        </Switch> 
-        {this.state.isOpen &&(  
-
-        <div className='Login-design text-dark shadow p-3 mb-5'>
-        <Container>  
-        <Label for="register" className='button_login text-center'>ADD COMPANY</Label>
+        
+      {this.state.isOpen &&(  
+      <Modal isOpen={this.state.isOpen} toggle={this.toggle} className="">
+        <ModalHeader toggle={this.toggle}>ADD COMPANY</ModalHeader>
+        <ModalBody>
         <br></br>
         <Form id="register" method="post" onSubmit ={this.handleSubmit}>
         <FormGroup>
@@ -147,9 +180,9 @@ export default class CrudCompany extends Component {
     </FormGroup>
     <Button className='button_login bg-success'>Submit</Button>
 </Form>
-</Container>
-</div>
-
+        </ModalBody>
+      </Modal>
+ 
         )}
 
         {this.state.isLoading&&(
@@ -173,17 +206,49 @@ export default class CrudCompany extends Component {
         <h5 className="card-title" >{v.name}</h5>
         <p className="card-text"><small className="text-muted">{v.location}</small></p>
         <p className="card-text">{v.description}</p>
-        <Link to={'/postjobs/crudcompany/updatecompany/' + v.id}><Button className="card-text bg-success"  onClick={()=> this.goToUpdate(v.id)}>Update</Button></Link>
-        <Button className="card-text bg-danger"style={{ marginLeft : '10px' }} onClick={()=> this.deleteData(v.id)}>Delete</Button>
+        <Button className="card-text bg-success"  onClick={()=> this.goToUpdate(v.id)}><i className="fa fa-edit"> Update </i></Button>
+        <Button className="card-text bg-danger"style={{ marginLeft : '10px' }} onClick={()=> this.deleteData(v.id)}><i className="fa fa-trash"> Delete </i></Button>
       </div>
-    </div>
+
+    {/* update modal */}
+    {this.state.isOpenUpdate &&(
+    <Modal isOpen={this.state.isOpenUpdate} toggle={this.goToUpdate} className="">
+        <ModalHeader toggle={this.goToUpdate}>Update COMPANY</ModalHeader>
+        <ModalBody>
+        <br></br>
+        <Form id="register" method="post" onSubmit ={this.handleSubmitUpdate}>
+        <FormGroup>
+        <Label for="name">Name</Label>
+        <Input type="text" name="name" id="name" defaultValue={v.name} onChange={this.handlenameChange}  placeholder="Enter your name" required/>
+      </FormGroup>
+      <FormGroup>
+        <Label for="logo">Logo</Label>
+        <Input type="file" name="logo" id="logo" onChange={this.handleLogoChange} defaultValue={v.logo} placeholder="Enter your Logo" required/>
+      </FormGroup>
+      <FormGroup>
+        <Label for="location">Location</Label>
+        <Input type="text" name="location" id="location" onChange={this.handleLocationChange} defaultValue={v.location} placeholder="Enter your location" required/>
+      </FormGroup>
+      <FormGroup>
+        <Label for="description">Description</Label>
+        <Input type="textarea" name="description" id="description" onChange={this.handleDescriptionChange} defaultValue={v.description} placeholder="Enter your company description" required/>
+      </FormGroup>
+    <Button className='button_login bg-success'>Submit</Button>
+</Form>
+        </ModalBody>
+      </Modal> 
+  )}      
+  </div>
 
    </div> 
   ))}
   </React.Fragment>
 
 }
-</BrowserRouter>
+
+
+
+
 </Container>
  </div>
 

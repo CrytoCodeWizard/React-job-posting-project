@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
-import { Container, Row, Col } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Container } from 'reactstrap';
 
 export default class Signup extends Component {
   constructor(props){
@@ -47,9 +47,7 @@ export default class Signup extends Component {
          console.log(res.data)
          if(res.status === 200){
             this.props.history.push('/login');
-          //  localStorage.getItem('Authorization',res.token)
-           // window.location.reload()
-         }else if(res.status == 404){
+         }else if(res.status === 404){
           alert('Email Already Exist,Try Another Email')  
          }
        }).catch((err) => {
