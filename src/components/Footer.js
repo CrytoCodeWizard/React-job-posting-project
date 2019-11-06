@@ -55,6 +55,7 @@ export default function Footer() {
 				</div>
 				<hr></hr>
 			</div>	
-        </div>    
+		</div> 
+		
     )
 }

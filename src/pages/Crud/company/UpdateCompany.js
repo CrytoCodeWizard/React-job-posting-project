@@ -14,12 +14,13 @@ export default class UpdateCompany extends Component {
       description : '',
       location : '',
     }
+
   }
 
-  componentDidMount(){
+  componentWillMount(){
     axios.get('http://localhost:2000/company/'+ this.props.match.params.id).then(res=>{
       this.setState({data: res.data.data[0]})
-      console.log(res.data.data)
+      console.log(res.data.data[0])
     })
   }
  
@@ -48,38 +49,15 @@ export default class UpdateCompany extends Component {
      event.preventDefault();
  
     const formData = new FormData();
-    formData.append('name', event.target.name.value)
-    formData.append('logo', event.target.logo.files[0])
-    formData.append('location', event.target.location.value)
-    formData.append('description', event.target.description.value)
-
-    const config = {
-        headers: {
-            'content-type': 'multipart/form-data'
-        }
-    }
-
-    //  const datacompany = {
-    //    name : this.state.name,
-    //    logo : this.state.logo,
-    //    location : this.state.location,
-    //    description: this.state.description,
-    //  };
+    formData.append('name',this.handlenameChange)
+    formData.append('logo', this.handleLogoChange)
+    formData.append('location', this.handleLocationChange)
+    formData.append('description', this.handleDescriptionChange)
  
      this.updateCompany(formData)
        .then(res => {
          console.log(res.status);
          console.log(res.data)
-        //  if(res.send === 'Unauthorized'){
-        //    setTimeout(() => {
-        //     this.props.history.push('/login');
-        //    },3000)
-        //   //  localStorage.getItem('Authorization',res.token)
-        //    // window.location.reload()
-        //  }else{
-
-        //  }
-        window.location.reload()
        }).catch((err) => {
          console.log(err)
          return
@@ -89,16 +67,10 @@ export default class UpdateCompany extends Component {
 
   render(){
   return (
-    <div className='Login-design bg-dark text-light shadow p-3 mb-5'>
-    {!this.state.data.id&&(     
-        <React.Fragment>
-        <Spinner style={{ width: '3rem', height: '3rem' }} type="grow" />
-        </React.Fragment>
-    )}
+    <div className='Login-design text-dark shadow p-3 mb-5'>
     <Container>  
     <Label for="updatecompany" className='button_login text-center'>EDIT COMPANY</Label>
     <br></br>
-    {this.state.data.id&&(
     <Form id="updatecompany" method="post" onSubmit ={this.handleSubmit}>
     <FormGroup>
         <Label for="name">Name</Label>
@@ -118,7 +90,6 @@ export default class UpdateCompany extends Component {
       </FormGroup>
       <Button className='button_login bg-success'>Submit</Button>
     </Form>
-    )}
     </Container>
     </div>
   );

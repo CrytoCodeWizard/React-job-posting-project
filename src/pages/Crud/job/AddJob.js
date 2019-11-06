@@ -63,13 +63,6 @@ export default class AddJob extends Component {
        .then(res => {
          console.log(res.status);
          console.log(res.data)
-        //  if(res.send === 'Unauthorized'){
-        //    setTimeout(() => {
-        //     this.props.history.push('/login');
-        //    },3000)
-        //   //  localStorage.getItem('Authorization',res.token)
-        //    // window.location.reload()
-        //  }
        }).catch((err) => {
          console.log(err)
          return
@@ -79,7 +72,7 @@ export default class AddJob extends Component {
 
   render(){
   return (
-    <div className='Login-design bg-dark text-light shadow p-3 mb-5'>
+    <div className='Login-design text-dark shadow p-3 mb-5'>
     <Container>  
     <Label for="register" className='button_login text-center'>ADD JOB</Label>
     <br></br>

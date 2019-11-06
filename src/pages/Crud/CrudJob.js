@@ -5,6 +5,8 @@ import axios from 'axios'
 import {
     Spinner,Button
   } from 'reactstrap';
+import { Container, Row,Collapse, CardBody, Card } from 'reactstrap';
+import {  Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
 import AddJob from './job/AddJob' 
 import UpdateJob from './job/UpdateJob' 
@@ -13,6 +15,7 @@ export default class CrudJob extends Component {
     constructor(props){
         super(props)
         this.state = {
+            isOpen : false,
             data : {},
             isLoading : true,
             next: false,
@@ -23,40 +26,22 @@ export default class CrudJob extends Component {
             queryCompany : ''
         }
     }
+
+    toggle = () => {
+      this.setState({isOpen : !this.state.isOpen})
+    }
+
     componentDidMount(){
-        this.getData().then(data=>{
-          this.setState(
-            {
-             data,
-             next:data.next,
-             previous:data.prev,
-             tot : data.total_data,
-             isLoading:false
-            }
-             )
-          })
+        this.getData()
         }
-  
-      getData = async(page)=>{
-        const job = await axios.get(page !== undefined ? page:'http://localhost:2000/job')
-        return job.data  
-      }
-      
-      deleteData = async(page)=>{
-        const job = await axios.delete(page !== undefined ? page:'http://localhost:2000/job')
-        return job.data  
-      }
-  
+
       goToUpdate = (id)=>{
         this.props.history.push('/postjobs/crudjob/updatejob/'+ id)
-        window.location.reload()
       }
   
       buttonPress = async(page)=>{
         this.setState({isLoading:false}) 
-        this.getData(page).then(data=>{
-          this.setState({data,next:data.next,previous:data.prev,tot : data.total_data,isLoading:false})
-        })
+        this.getData()
       }  
   
       queryNameChange = (e)=>{
@@ -87,10 +72,10 @@ export default class CrudJob extends Component {
       doOrderBy = async(mQuery) => {
         let url=`http://localhost:2000/job?orderby=${mQuery}`
         this.setState({isLoading:true})
-        this.getData(url).then(data=>{
-          this.setState({data,
-            previous: data.prev,
-            next: data.next,
+        this.getData(url).then(res=>{
+          this.setState({
+            previous: res.prev,
+            next: res.next,
             isLoading:false})
         }).catch(err => {
           console.log(err)
@@ -98,33 +83,130 @@ export default class CrudJob extends Component {
         console.log(mQuery)
       }
 
-      deleteJob = async(id) => {
-        let url=`http://localhost:2000/job/${id}`
-        this.setState({isLoading : true})
-        this.deleteData(url).then(data=>{
-            this.setState({data,
-              previous: data.prev,
-              next: data.next,
-              isLoading:false})
-          }).catch(err => {
-            console.log(err)
-          })
+      getData = ()=>{
+        axios.get('http://localhost:2000/job').then(res => {
+          this.setState({data: res.data ,next:res.next,previous:res.prev,tot : res.total_data,isLoading:false})
+        }) 
+      }
+      
+      deleteData = (id)=>{
+        axios.delete(`http://localhost:2000/job/${id}`).then(data=>{
+          this.setState({isLoading:false})
+          this.getData()
+        }).catch(err => {
+          console.log(err)
+        })
+        
+      }
+
+      addJob = async(dataJob) => {
+        const user = await axios.post('http://localhost:2000/job',(dataJob))
+        return user.data 
+       }
+     
+       handlenameChange = event => {
+        this.setState({ name: event.target.value });
+      }
+    
+       handleDescriptionChange = event => {
+         this.setState({ description: event.target.value });
+       }
+     
+       handleCategoryChange = event => {
+         this.setState({ id_category: event.target.value });
+       }
+    
+       handleSalaryChange = event => {
+        this.setState({ salary: event.target.value });
+      }
+    
+      handleLocationChange = event => {
+        this.setState({ location: event.target.value });
+      }
+    
+      handleCompanyChange = event => {
+        this.setState({ id_company: event.target.value });
+      }
+     
+       handleSubmit = event => {
+         event.preventDefault();
+     
+         const dataJob = {
+           name : this.state.name,
+           description: this.state.description,
+           id_category : this.state.id_category,
+           salary : this.state.salary,
+           location : this.state.location,
+           id_company : this.state.id_company
+         };
+     
+         this.addJob(dataJob)
+           .then(res => {
+             alert(res.message)
+             this.getData()
+             this.cancelCourse()
+             this.setState({isOpen : false})
+           }).catch((err) => {
+             console.log(err)
+             return
+           })
+       }
+
+       cancelCourse = () => { 
+        document.getElementById("register").reset();
       }
   
     render(){
     return (
         <div>
+       <Container>
         <BrowserRouter>
-        <Link to='/postjobs/crudjob/addjob'>
-        <button type="button" className="btn btn-primary" data-toggle="modal" style={{ marginLeft : '30px' }}>
-        Add Data
-        </button>
-        </Link>
+        {/* <Link to='/postjobs/crudjob/addjob'>
+        
+        </Link> */}
         <Switch>
-        <Route path={'/postjobs/crudjob/addjob'} component={AddJob}></Route>
-        <Route path={'/postjobs/crudjob/updatejob/:id'} component={UpdateJob}></Route>
+        {/* <Route path={'/postjobs/crudjob/addjob'} component={AddJob}></Route> */}
+        <Route path={'/postjobs/crudjob/updatejob/:id'} component={UpdateJob} exact/>
         </Switch>   
         
+        <button type="button" onClick={this.toggle} className="btn btn-primary" data-toggle="modal" style={{ marginLeft : '30px', marginTop : '10px', marginBottom : '10px' }}>
+        Add Data
+        </button>
+
+        {this.state.isOpen&&( <div className='Login-design text-dark shadow p-3 mb-5'>
+    <Container>  
+    <Label for="register" className='button_login text-center'>ADD JOB</Label>
+    <br></br>
+    <Form id="register" method="post" onSubmit ={this.handleSubmit}>
+    <FormGroup>
+        <Label for="name">Name</Label>
+        <Input type="text" name="name" id="name" onChange={this.handlenameChange} placeholder="Enter your name" required/>
+      </FormGroup>
+      <FormGroup>
+        <Label for="description">Description</Label>
+        <Input type="textarea" name="description" id="description" onChange={this.handleDescriptionChange} placeholder="Enter your job description" required/>
+      </FormGroup>
+      <FormGroup>
+        <Label for="id_category">ID Category</Label>
+        <Input type="number" name="id_category" id="id_category" onChange={this.handleCategoryChange} placeholder="Enter your id category" required/>
+      </FormGroup>
+      <FormGroup>
+        <Label for="salary">Salary</Label>
+        <Input type="number" name="salary" id="salary" onChange={this.handleSalaryChange} placeholder="Enter your salary" required/>
+      </FormGroup>
+      <FormGroup>
+        <Label for="location">Location</Label>
+        <Input type="text" name="location" id="location" onChange={this.handleLocationChange} placeholder="Enter your salary" required/>
+      </FormGroup>
+      <FormGroup>
+        <Label for="id_company">ID Company</Label>
+        <Input type="text" name="id_company" id="id_company" onChange={this.handleCompanyChange} placeholder="Enter your salary" required/>
+      </FormGroup>
+      <Button className='button_login bg-success'>Submit</Button>
+    </Form>
+    </Container>
+    </div> )}
+
                   {
         this.state.isLoading&&(
         <div><Spinner style={{ width: '3rem', height: '3rem' }} type="grow" /></div>
@@ -136,7 +218,7 @@ export default class CrudJob extends Component {
     { 
       this.state.data.data.map((v,i)=>(  
 
-    <div className="row no-gutters" key={i.toString()} >
+    <div className="row no-gutters shadow-lg p-3 mb-5 bg-white rounded" key={i.toString()} >
       {/*  */}
     <div className="col-md-4">
       <img  src={v.logo} className="card-img App-img" alt={v.name} width="120px" height="160px"/>
@@ -149,7 +231,7 @@ export default class CrudJob extends Component {
         <p className="card-text">{v.description}</p>
         <p className="card-text"><small className="text-muted">{v.date_updated}</small></p>
         <Link to={'/postjobs/crudjob/updatejob/' + v.id}><Button className="card-text bg-success"  onClick={()=> this.goToUpdate(v.id)}>Update</Button></Link>
-        <Button className="card-text bg-danger"style={{ marginLeft : '10px' }} onClick={()=> this.deleteJob(v.id)}>Delete</Button>
+        <Button className="card-text bg-danger"style={{ marginLeft : '10px' }} onClick={()=> this.deleteData(v.id)}>Delete</Button>
       </div>
     </div>
 
@@ -173,7 +255,7 @@ export default class CrudJob extends Component {
         }</li>
     </ul>
 </nav>
-
+</Container>
  </div>
 
     

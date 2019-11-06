@@ -2,8 +2,9 @@
 /* eslint-disable react/style-prop-object */
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import axios from 'axios';
-import React, {Component,useState} from 'react';
+import React, {Component} from 'react';
 import { withRouter } from "react-router";
+import {BrowserRouter,Route,Switch,Link} from 'react-router-dom'
 import {Row, Col, Container, Button,Form, FormGroup, Label, Input,Card } from 'reactstrap'
 import { ButtonGroup } from 'reactstrap';
 import { Spinner } from 'reactstrap';
@@ -39,6 +40,7 @@ class JobItems extends Component{
            )
         })
       }
+      
 
     getData = async(page)=>{
       const job = await axios.get(page !== undefined ? page:'http://localhost:2000/job')
@@ -47,8 +49,7 @@ class JobItems extends Component{
 
 
     goToDetail = (id)=>{
-      this.props.history.push('/detail/'+ id)
-      window.location.reload()
+      this.props.history.push(`/detail/${id}`)
     }
 
     buttonPress = async(page)=>{
@@ -103,30 +104,27 @@ render() {
   return (
     
     <div>
-    <Form inline className="Search-header shadow">
+    <Form inline className="Search-header shadow-lg p-3 mb-5 bg-white rounded">
        {/* search {data.name} */}
       <FormGroup>
-        <Input type="text" name="name" id="name" placeholder="Search by name" className="search-slt" 
+        <Input type="text" name="name" id="name" placeholder="Search by name" className ="form-control" 
         onChange={this.queryNameChange} value={queryName}  />
-        <Input type="text" name="company" id="company" placeholder="Search by company" className="search-slt"
+        <Input type="text" name="company" id="company" placeholder="Search by company" className ="form-control"
         onChange={this.queryCompanyChange} value={queryCompany} />
-        <Button className="btn btn-lg bg-success" onClick={()=>this.doSearch(queryName,queryCompany)} >Search</Button>
-      </FormGroup>
-    </Form>
 
-    <div className="card mb-3">  
-
-    <div className="bg-dark text-light text-center text-lg"><strong> There is {this.state.tot} Job in data</strong></div> 
-
-    <div class="form-group">
-      <select class="form-control" id="orderby" onChange={this.mQueryOrderByChange} onClick={()=> this.doOrderBy(mQuery)}>
+      <select className="form-control" id="orderby" onChange={this.mQueryOrderByChange} onClick={()=> this.doOrderBy(mQuery)}>
         <option value = " ">Sort By</option>
         <option value="name" >Name</option>
         <option value="company">Company</option>
         <option value="date_updated">Newest</option>
       </select>
-    </div>
 
+        <Button className="btn btn-success" onClick={()=>this.doSearch(queryName,queryCompany)} >Search</Button>
+      
+      </FormGroup>
+    </Form>
+
+    <div>  
 
       {
         this.state.isLoading&&(
@@ -139,7 +137,7 @@ render() {
     { 
       this.state.data.data.map((v,i)=>(  
     
-    <div className="row no-gutters" key={i.toString()} >
+    <div className="row no-gutters shadow-lg p-3 mb-5 bg-white rounded" key={i.toString()} >
       {/*  */}
     <div className="col-md-4">
       <img  src={v.logo} className="card-img App-img" alt={v.name} width="120px" height="160px"/>
@@ -147,11 +145,10 @@ render() {
     
       <div className="col-md-8">
       <div className="card-body">
-        <h5 className="card-title" >{v.name}</h5>
-        <p className="card-text"><small className="text-muted">{v.company}</small> | <small className="text-muted">Rp.{v.salary}</small> | <small className="text-muted">{v.location}</small></p>
+        <h5 className="card-title btn-link text-dark" onClick={()=>this.goToDetail(v.id)}>{v.name}</h5>
+        <p className="card-text"><small className="text-muted"><i className = "fa fa-building-o "> {v.company} </i></small> | <small className="text-muted"><i className="fa fa-money"> {v.salary}</i></small> | <small className="text-muted"><i className="fa fa-map-marker"> {v.location} </i></small></p>
         <p className="card-text">{v.description}</p>
         <p className="card-text"><small className="text-muted">{v.date_updated}</small></p>
-        <Button className="card-text bg-success" onClick={()=>this.goToDetail(v.id)}>Apply Job</Button>
       </div>
     </div>
 

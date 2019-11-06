@@ -39,13 +39,26 @@
 
 .Search-header {
   min-height: 10vh;
+  margin-top: 20px;
+  margin-bottom: 10px;
   justify-content: center;
-  color: white;
+  color: rgb(83, 83, 83);
+}
+
+.image-center {
+  display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.search-border{
+  min-height: 20px;
 }
 
 .Login-design {
   width: 500px;
-  background: green;
+ 
   display: flex;
   /*meletakkan form ke tengah*/
   margin: 80px auto;
@@ -58,8 +71,7 @@
 }
 
 .button_login {
-  background: #46de4b;
-  color: white;
+  color: black;
   font-size: 20pt;
   width: 100%;
   border: none;
@@ -81,6 +93,10 @@
   left:0;
   
   }
+
+.font-test{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}  
 
 .search-sec{
     background: rgb(255, 255, 255);

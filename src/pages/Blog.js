@@ -11,8 +11,8 @@ const Blog = (props) => {
     <div>
       <Jumbotron fluid style={{ backgroundImage: `url(${bgimage})`, backgroundSize: 'cover' }} className="text-light">
         <Container fluid>
-          <h1 className="display-3">News</h1>
-          <p className="lead">This page for news.</p>
+          <h1 className="display-3 text-center">News</h1>
+          <p className="lead text-center">This page for news.</p>
         </Container>
       </Jumbotron>
 
@@ -49,7 +49,6 @@ Find a Balance
 One of the hardest parts about writing a resume or CV is finding the balance between talking yourself up and finding a balance in how much to embellish your achievements. You want to be sure everything you include on your resume is valid and is backed up by a reference, or exemplified by your own working knowledge or accolades.
 Coordinate Your Resume for Each Job
 While it may be easy to send out a carbon copy of your resume for every position you’re applying for, don’t.
-
 Job Brown, IT & Web Manager at Wooden Blinds Direct, says, “as is the case in any job, tailor your CV to the specific role. Do as much research on the company as you can and see if you can find out what software they are using. Be sure to keep your CV broad, highlight specific pieces of software from your research of the job specification. Don’t forget to show your passion – IT is a vital part of practically every business today, but companies want people with a genuine flare and interest in the area, as well as the skills to do the job.”</p>
           </div>
         </div>
@@ -57,7 +56,6 @@ Job Brown, IT & Web Manager at Wooden Blinds Direct, says, “as is the case in 
      </Col>
   </Row>
 </Container>
-
     <Footer/>
 
     </div>

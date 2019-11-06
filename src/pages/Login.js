@@ -46,24 +46,22 @@ export default class Login extends Component {
 
     this.getLogin(account)
       .then(res => {
-        console.log(res.status);
-        console.log(res.token);
         if(res.status === 200){
-          this.props.history.push('/home');
           localStorage.setItem('Authorization',res.token)
-          // window.location.reload()
           alert('Succes to Login')
+          this.props.history.push(`postjobs/crudjob`);
+          
+          // window.location.reload()
         }
       }).catch((err) => {
         alert('Email or Password is incorrect')
-        console.log(err)
         return
       })
   }
 
   render() {
   return (
-    <div className='Login-design bg-dark text-light shadow p-3 mb-5'>
+    <div className='Login-design text-dark shadow p-3 mb-5'>
     <Container>
     <Label for="title" className='button_login text-center'>LOGIN</Label>
     <Row>

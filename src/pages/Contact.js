@@ -8,7 +8,7 @@ const Contact = (props) => {
     
     <div className="margin-form"> 
     <Card>
-    <div className="margin-form">
+    <div className="margin-form text-center">
     <Label><strong>CONTACT US</strong></Label>
     <br></br>
     <Form>

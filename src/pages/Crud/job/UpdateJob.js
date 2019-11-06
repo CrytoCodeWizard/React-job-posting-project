@@ -66,17 +66,10 @@ export default class UpdateJob extends Component {
        id_company : this.state.id_company
      };
  
-     this.addJob(dataJob)
+     this.UpdateJob(dataJob)
        .then(res => {
          console.log(res.status);
          console.log(res.data)
-        //  if(res.send === 'Unauthorized'){
-        //    setTimeout(() => {
-        //     this.props.history.push('/login');
-        //    },3000)
-        //   //  localStorage.getItem('Authorization',res.token)
-        //    // window.location.reload()
-        //  }
        }).catch((err) => {
          console.log(err)
          return
@@ -87,7 +80,7 @@ export default class UpdateJob extends Component {
   render(){
   return (
     
-    <div className='Login-design bg-dark text-light shadow p-3 mb-5'>
+    <div className='Login-design text-dark shadow p-3 mb-5'>
     {!this.state.data.id&&(     
         <React.Fragment>
         <Spinner style={{ width: '3rem', height: '3rem' }} type="grow" />
@@ -108,7 +101,7 @@ export default class UpdateJob extends Component {
       </FormGroup>
       <FormGroup>
         <Label for="id_category">ID Category</Label>
-        <Input type="number" name="id_category" id="id_category" onChange={this.handleCategoryChange} value={this.state.data.IDcategory} placeholder="Enter your id category" required/>
+        <Input type="number" name="id_category" id="id_category" onChange={this.handleCategoryChange} value={this.state.data.id_category} placeholder="Enter your id category" required/>
       </FormGroup>
       <FormGroup>
         <Label for="salary">Salary</Label>

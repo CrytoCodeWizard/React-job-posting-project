@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { Container } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 
 export default class Signup extends Component {
   constructor(props){
@@ -47,7 +47,9 @@ export default class Signup extends Component {
          console.log(res.data)
          if(res.status === 200){
             this.props.history.push('/login');
-         }else if(res.status === 404){
+          //  localStorage.getItem('Authorization',res.token)
+           // window.location.reload()
+         }else if(res.status == 404){
           alert('Email Already Exist,Try Another Email')  
          }
        }).catch((err) => {
@@ -62,7 +64,7 @@ export default class Signup extends Component {
   return (
     <div className='Login-design text-dark shadow p-3 mb-5'>
     <Container>  
-    <Label for="register" className='button_login text-center'>REGISTER</Label>
+    <Label for="register" className='button_login text-center'>REGISTER COMPANY</Label>
     <br></br>
     <Form id="register" method="post" onSubmit ={this.handleSubmit}>
     <FormGroup>

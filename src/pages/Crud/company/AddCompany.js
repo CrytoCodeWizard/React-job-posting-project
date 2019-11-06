@@ -20,6 +20,12 @@ export default class AddCompany extends Component {
     const user = await axios.post('http://localhost:2000/company',(datacompany))
     return user.data 
    }
+
+   getData = ()=>{
+    axios.get('http://localhost:2000/company').then(res => {
+      this.setState({data: res.data})
+    }) 
+  }
  
    handlenameChange = event => {
     this.setState({ name: event.target.value });
@@ -45,44 +51,27 @@ export default class AddCompany extends Component {
     formData.append('logo', event.target.logo.files[0])
     formData.append('location', event.target.location.value)
     formData.append('description', event.target.description.value)
-
-    const config = {
-        headers: {
-            'content-type': 'multipart/form-data'
-        }
-    }
-
-    //  const datacompany = {
-    //    name : this.state.name,
-    //    logo : this.state.logo,
-    //    location : this.state.location,
-    //    description: this.state.description,
-    //  };
  
      this.addCompany(formData)
        .then(res => {
-         console.log(res.status);
-         console.log(res.data)
-        //  if(res.send === 'Unauthorized'){
-        //    setTimeout(() => {
-        //     this.props.history.push('/login');
-        //    },3000)
-        //   //  localStorage.getItem('Authorization',res.token)
-        //    // window.location.reload()
-        //  }else{
-
-        //  }
-        window.location.reload()
-       }).catch((err) => {
+        this.setState({data : res.data})
+        alert('Success to Add Data Company')
+        this.cancelCourse()
+      }).catch((err) => {
          console.log(err)
          return
        })
+
+       
    }
 
+   cancelCourse = () => { 
+    document.getElementById("register").reset();
+  }
 
   render(){
   return (
-    <div className='Login-design bg-dark text-light shadow p-3 mb-5'>
+    <div className='Login-design text-dark shadow p-3 mb-5'>
     <Container>  
     <Label for="register" className='button_login text-center'>ADD COMPANY</Label>
     <br></br>

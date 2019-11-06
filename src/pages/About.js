@@ -11,8 +11,8 @@ const About = (props) => {
     <div>
       <Jumbotron fluid style={{ backgroundImage: `url(${bgimage})`, backgroundSize: 'cover' }} className="text-light">
         <Container fluid>
-          <h1 className="display-3">About</h1>
-          <p className="lead">This page for personal portofolio site.</p>
+          <h1 className="display-3 text-center">About</h1>
+          <p className="lead text-center">This page for personal portofolio site.</p>
         </Container>
       </Jumbotron>
 
