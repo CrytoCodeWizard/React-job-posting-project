@@ -7,6 +7,7 @@ import {
   } from 'reactstrap';
   import { Form, FormGroup, Label, Input , Modal, ModalHeader, ModalBody} from 'reactstrap';
 import UpdateCompany from './company/UpdateCompany' 
+import { thisExpression } from '@babel/types';
 
 export default class CrudCompany extends Component {
     constructor(props){
@@ -18,19 +19,12 @@ export default class CrudCompany extends Component {
             isLoading : true,
             next: false,
             previous: '',
-            tot : '',
-            mQuery : '',
-            queryName : '',
-            queryCompany : ''
+            itemId : props.match.params.id
         }
     }
 
     toggle = () => {
       this.setState({isOpen : !this.state.isOpen})
-    }
-
-    toggleUpdate = () => {
-      this.setState({})
     }
 
     componentDidMount(){
@@ -53,8 +47,6 @@ export default class CrudCompany extends Component {
         
       }
   
-      
-  
       buttonPress = async(page)=>{
         this.setState({isLoading:false}) 
         this.getData(page).then(data=>{
@@ -64,8 +56,11 @@ export default class CrudCompany extends Component {
 
       //update
 
-      goToUpdate = (id)=>{
-        this.setState({isOpenUpdate : !this.state.isOpen})
+      toggleupdate = (id)=>{
+        this.setState({
+          isOpenUpdate : !this.state.isOpenUpdate,
+          id
+        })
       }
 
       updateCompany = async(id,datacompany) => {
@@ -89,6 +84,9 @@ export default class CrudCompany extends Component {
           .then(res => {
             console.log(res.status);
             console.log(res.data)
+            alert('Success to Update Data')
+            this.getData()
+            this.setState({isOpenUpdate : false})
           }).catch((err) => {
             console.log(err)
             return
@@ -149,10 +147,12 @@ export default class CrudCompany extends Component {
       //end add data
   
     render(){
+      // console.log("toggle : "+ this.state.id)
+     
     return (
         <div>
           <Container>
-        <button type="button" className="btn btn-primary"  onClick={this.toggle} data-toggle="modal" style={{ marginLeft : '30px', marginTop : '10px', marginBottom : '10px' }}>
+        <button type="button" className="btn btn-primary"  onClick={this.toggle} data-toggle="" style={{ marginLeft : '30px', marginTop : '10px', marginBottom : '10px' }}>
         <i className="fa fa-plus-square"> Add Data</i>
         </button>
         
@@ -161,7 +161,7 @@ export default class CrudCompany extends Component {
         <ModalHeader toggle={this.toggle}>ADD COMPANY</ModalHeader>
         <ModalBody>
         <br></br>
-        <Form id="register" method="post" onSubmit ={this.handleSubmit}>
+        <Form id="updateCompany" method="post" onSubmit ={this.handleSubmit}>
         <FormGroup>
        <Label for="name">Name</Label>
       <Input type="text" name="name" id="name" onChange={this.handlenameChange} placeholder="Enter your name" required/>
@@ -206,38 +206,48 @@ export default class CrudCompany extends Component {
         <h5 className="card-title" >{v.name}</h5>
         <p className="card-text"><small className="text-muted">{v.location}</small></p>
         <p className="card-text">{v.description}</p>
-        <Button className="card-text bg-success"  onClick={()=> this.goToUpdate(v.id)}><i className="fa fa-edit"> Update </i></Button>
+        <Button className="card-text bg-success" onClick={() => this.toggleupdate(v.id)} ><i className="fa fa-edit"> Update </i></Button>
         <Button className="card-text bg-danger"style={{ marginLeft : '10px' }} onClick={()=> this.deleteData(v.id)}><i className="fa fa-trash"> Delete </i></Button>
+  
       </div>
 
+ 
+
     {/* update modal */}
-    {this.state.isOpenUpdate &&(
-    <Modal isOpen={this.state.isOpenUpdate} toggle={this.goToUpdate} className="">
-        <ModalHeader toggle={this.goToUpdate}>Update COMPANY</ModalHeader>
-        <ModalBody>
-        <br></br>
-        <Form id="register" method="post" onSubmit ={this.handleSubmitUpdate}>
-        <FormGroup>
-        <Label for="name">Name</Label>
-        <Input type="text" name="name" id="name" defaultValue={v.name} onChange={this.handlenameChange}  placeholder="Enter your name" required/>
-      </FormGroup>
-      <FormGroup>
-        <Label for="logo">Logo</Label>
-        <Input type="file" name="logo" id="logo" onChange={this.handleLogoChange} defaultValue={v.logo} placeholder="Enter your Logo" required/>
-      </FormGroup>
-      <FormGroup>
-        <Label for="location">Location</Label>
-        <Input type="text" name="location" id="location" onChange={this.handleLocationChange} defaultValue={v.location} placeholder="Enter your location" required/>
-      </FormGroup>
-      <FormGroup>
-        <Label for="description">Description</Label>
-        <Input type="textarea" name="description" id="description" onChange={this.handleDescriptionChange} defaultValue={v.description} placeholder="Enter your company description" required/>
-      </FormGroup>
-    <Button className='button_login bg-success'>Submit</Button>
+{this.state.isOpenUpdate &&(  
+  
+  <Modal isOpen={this.state.isOpenUpdate} toggle={this.toggleupdate} >
+    {console.log(this.state.data.data[0].id + " " + this.state.id)}
+    {this.state.id&&(
+     <React.Fragment> 
+    <ModalHeader toggle={this.toggleupdate}>EDIT COMPANY</ModalHeader>
+    <ModalBody>
+    <br></br>
+    <Form id="update" method="post" onSubmit ={this.handleSubmitUpdate}>
+    <FormGroup>
+   <Label for="name">Name</Label>
+  <Input type="text" name="name" id="name" defaultValue={v.name}  onChange={this.handlenameChange} placeholder="Enter your name" required/>
+</FormGroup>
+<FormGroup>
+<Label for="logo">Logo</Label>
+<Input type="file" name="logo" id="logo" onChange={this.handleLogoChange} placeholder="Enter your Logo" required/>
+</FormGroup>
+<FormGroup>
+<Label for="location">Location</Label>
+<Input type="text" name="location" id="location" onChange={this.handleLocationChange} defaultValue={v.location} placeholder="Enter your location" required/>
+</FormGroup>
+<FormGroup>
+<Label for="description">Description</Label>
+<Input type="textarea" name="description" id="description" onChange={this.handleDescriptionChange} defaultValue={v.description} placeholder="Enter your company description" required/>
+</FormGroup>
+<Button className='button_login bg-success'>Submit</Button>
 </Form>
-        </ModalBody>
-      </Modal> 
-  )}      
+    </ModalBody>
+    </React.Fragment> 
+    )}  
+  </Modal>
+
+    )}  
   </div>
 
    </div> 
@@ -246,14 +256,13 @@ export default class CrudCompany extends Component {
 
 }
 
-
-
-
 </Container>
  </div>
 
     
   
     )
+    
     }
+  
 }
