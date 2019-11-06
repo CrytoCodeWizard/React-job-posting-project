@@ -1,13 +1,11 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {Component} from 'react'
-import {BrowserRouter,Route,Switch,Link} from 'react-router-dom'
 import axios from 'axios'
 import {
     Spinner,Button,Container
   } from 'reactstrap';
   import { Form, FormGroup, Label, Input , Modal, ModalHeader, ModalBody} from 'reactstrap';
-import UpdateCompany from './company/UpdateCompany' 
-import { thisExpression } from '@babel/types';
+
 
 export default class CrudCompany extends Component {
     constructor(props){
@@ -38,12 +36,15 @@ export default class CrudCompany extends Component {
       }
       
       deleteData = (id)=>{
+        if (window.confirm('Are you sure you want to save this thing into the database?')) {
         axios.delete(`http://localhost:2000/company/${id}`).then(data=>{
           this.setState({isLoading:false})
           this.getData()
         }).catch(err => {
           console.log(err)
-        })
+        })} else {
+          this.getData()
+      }
         
       }
   
@@ -212,7 +213,7 @@ export default class CrudCompany extends Component {
       </div>
 
  
-
+ 
     {/* update modal */}
 {this.state.isOpenUpdate &&(  
   

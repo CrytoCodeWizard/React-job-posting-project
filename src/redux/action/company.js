@@ -7,7 +7,7 @@ export const getCompany = ()=>{
     }
 }
 
-export const updateCompany = (id)=>{
+export const updateCompany = (id,data)=>{
     return{
         type : 'UPDATE_COMPANY',
         payload : axios.get('https://localhost:2000/company/' + id)

@@ -7,7 +7,7 @@ export const getJob = ()=>{
     }
 }
 
-export const updateJob = (id)=>{
+export const updateJob = (id,data)=>{
     return{
         type : 'UPDATE_JOB',
         payload : axios.get('https://localhost:2000/job/' + id)
