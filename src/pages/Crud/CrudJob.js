@@ -6,6 +6,11 @@ import {
   } from 'reactstrap';
 import { Container } from 'reactstrap';
 import {  Form, FormGroup, Label, Input} from 'reactstrap';
+import {connect} from 'react-redux'
+import {addJob} from './../../redux/action/job'
+import {getJob} from './../../redux/action/job'
+import {updateJob} from './../../redux/action/job'
+import {deleteJob} from './../../redux/action/job'
 
 class CrudJob extends Component {
     constructor(props){
@@ -41,26 +46,41 @@ class CrudJob extends Component {
         this.getData()
       }  
 
-      getData = ()=>{
-        axios.get('http://localhost:2000/job').then(res => {
-          this.setState({data: res.data ,next:res.next,previous:res.prev,tot : res.total_data,isLoading:false})
-        }) 
+      // getData = ()=>{
+      //   axios.get('http://localhost:2000/job').then(res => {
+      //     this.setState({data: res.data ,next:res.next,previous:res.prev,tot : res.total_data,isLoading:false})
+      //   }) 
+      // }
+      getData = async() => {
+        await this.props.dispatch(getJob())
       }
       
-      deleteData = (id)=>{
-        axios.delete(`http://localhost:2000/job/${id}`).then(data=>{
-          this.setState({isLoading:false})
-          this.getData()
-        }).catch(err => {
-          console.log(err)
-        })
+      // deleteData = (id)=>{
+      //   axios.delete(`http://localhost:2000/job/${id}`).then(data=>{
+      //     this.setState({isLoading:false})
+      //     this.getData()
+      //   }).catch(err => {
+      //     console.log(err)
+      //   })
         
+      // }
+
+      deleteData = async(id) => {
+        if (window.confirm('Are you sure you want to save this thing into the database?')) {
+        await this.props.dispatch(deleteJob(id))
+      }else{
+        this.getData()
+      }
       }
 
+      // addJob = async(dataJob) => {
+      //   const user = await axios.post('http://localhost:2000/job',(dataJob))
+      //   return user.data 
+      //  }
+
       addJob = async(dataJob) => {
-        const user = await axios.post('http://localhost:2000/job',(dataJob))
-        return user.data 
-       }
+        await this.props.dispatch(addJob(dataJob))
+      }
      
        handlenameChange = event => {
         this.setState({ name: event.target.value });
@@ -100,7 +120,7 @@ class CrudJob extends Component {
      
          this.addJob(dataJob)
            .then(res => {
-             alert(res.message)
+             alert('Success Insert Data')
              this.getData()
              this.cancelCourse()
              this.setState({isOpen : false})
@@ -114,10 +134,15 @@ class CrudJob extends Component {
         document.getElementById("register").reset();
       }
    
+      // UpdateJob = async(id,dataJob) => {
+      //   const user = await axios.patch(`http://localhost:2000/job/${id}`,(dataJob))
+      //   return user.data 
+      //  }
+
+
       UpdateJob = async(id,dataJob) => {
-        const user = await axios.patch(`http://localhost:2000/job/${id}`,(dataJob))
-        return user.data 
-       }
+        await this.props.dispatch(updateJob(id,dataJob))
+      }
 
       handleSubmitUpdate = event => {
         event.preventDefault();
@@ -135,8 +160,6 @@ class CrudJob extends Component {
     
         this.UpdateJob(id,dataJob)
           .then(res => {
-            console.log(res.status);
-            console.log(res.data)
             alert('Success to Update')
             this.getData()
             this.setState({isOpenUpdate : false})
@@ -183,7 +206,7 @@ class CrudJob extends Component {
       </FormGroup>
       <FormGroup>
         <Label for="id_company">ID Company</Label>
-        <Input type="text" name="id_company" id="id_company" onChange={this.handleCompanyChange} placeholder="Enter your salary" required/>
+        <Input type="text" name="id_company" id="id_company" onChange={this.handleCompanyChange} placeholder="Enter your id Company" required/>
       </FormGroup>
       <Button className='button_login bg-success'>Submit</Button>
     </Form>
@@ -193,14 +216,14 @@ class CrudJob extends Component {
         )}
 
       {
-        this.state.isLoading&&(
+        this.props.job.isLoading&&(
         <div><Spinner style={{ width: '3rem', height: '3rem' }} type="grow" /></div>
       )}
 
-    {!this.state.isLoading&&
+    {!this.props.job.isLoading&&
     
     <React.Fragment>
-    {this.state.data.data.map((v,i)=>(  
+    {this.props.job.data.map((v,i)=>(  
 
     <div className="row no-gutters shadow-lg p-3 mb-5 bg-white rounded" key={i.toString()} >
     <div className="col-md-4">
@@ -227,11 +250,11 @@ class CrudJob extends Component {
     <br></br>
     <Form id={v.id} method="post" onSubmit ={this.handleSubmitUpdate}>
     <FormGroup>
-        <Label for="name">Name</Label>
+        <Label for="name">Job Name</Label>
         <Input type="text" name="name" id="name" onChange={this.handlenameChange}  defaultValue={v.name} placeholder="Enter your name" required/>
       </FormGroup>
       <FormGroup>
-        <Label for="description">Description</Label>
+        <Label for="description">Job Description</Label>
         <Input type="textarea" name="description" id="description" onChange={this.handleDescriptionChange} defaultValue={v.description} placeholder="Enter your job description" required/>
       </FormGroup>
       <FormGroup>
@@ -280,10 +303,11 @@ class CrudJob extends Component {
 </nav>
 </Container>
  </div>
-
-    
-  
-    )
-    }
+)}
 }
-export default CrudJob
+
+const mapStateProps = state => ({
+  job : state.job
+})
+
+export default connect(mapStateProps)(CrudJob)

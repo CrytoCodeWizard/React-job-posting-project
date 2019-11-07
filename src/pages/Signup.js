@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { Container } from 'reactstrap';
+import {addUser} from './../redux/action/user'
+import { connect } from 'react-redux';
 
-export default class Signup extends Component {
+class Signup extends Component {
   constructor(props){
     super(props)
     this.state = {
@@ -15,10 +17,13 @@ export default class Signup extends Component {
     }
   }
  
-  addRegister = async(account) => {
-    const user = await axios.post('http://localhost:2000/user/signup',(account))
-    return user.data 
-   }
+  // addRegister = async(account) => {
+  //   const user = await axios.post('http://localhost:2000/user/signup',(account))
+  //   return user.data 
+  //  }
+  addRegister = async (account) =>{
+    await this.props.dispatch(addUser(account))
+  }
  
    handleUsernameChange = event => {
     this.setState({ username: event.target.value });
@@ -43,13 +48,8 @@ export default class Signup extends Component {
  
      this.addRegister(account)
        .then(res => {
-         console.log(res.status);
-         console.log(res.data)
-         if(res.status === 200){
-            this.props.history.push('/login');
-         }else if(res.status === 404){
-          alert('Email Already Exist,Try Another Email')  
-         }
+        alert('Success Register')    
+        this.props.history.push('/login');
        }).catch((err) => {
          alert('Email Already Exist,Try Another Email')
          console.log(err)
@@ -85,3 +85,9 @@ export default class Signup extends Component {
   );
 }
 }
+
+const mapStateProps = state => ({
+  user : state.user
+})
+
+export default connect(mapStateProps)(Signup);

@@ -1,6 +1,6 @@
 import {GET_JOB_REJECTED,GET_JOB_PENDING,GET_JOB_FULFILLED,ADD_JOB_FULFILLED
-        ,ADD_JOB_REJECTED,ADD_JOB_PENDING,EDIT_JOB_FULFILLED,
-        EDIT_JOB_PENDING,EDIT_JOB_REJECTED, REMOVE_JOB_PENDING, REMOVE_JOB_REJECTED, REMOVE_JOB_FULFILLED} from './../constanta/actiontypes'
+        ,ADD_JOB_REJECTED,ADD_JOB_PENDING,UPDATE_JOB_FULFILLED,
+        UPDATE_JOB_PENDING,UPDATE_JOB_REJECTED, DELETE_JOB_PENDING, DELETE_JOB_REJECTED, DELETE_JOB_FULFILLED} from './../constants/actiontypes'
 
 const initialState = {
     isLoading : false,
@@ -28,7 +28,7 @@ const job = ( state = initialState, action) => {
                     ...state,
                     isLoading: false,
                     isError : false,
-                    jobs : action.payload.data
+                    data : action.payload.data.data
                 } 
 
             case ADD_JOB_PENDING:
@@ -48,54 +48,52 @@ const job = ( state = initialState, action) => {
                 return{
                     ...state,
                     isLoading : false,
-                    jobs : [...state.job,action.payload.data]
+                    data : [...state.data,action.payload.data.data]
                 }
                 
-            case EDIT_JOB_PENDING:
+            case UPDATE_JOB_PENDING:
                 return{
                     ...state,
                     isLoading : true
                 }
                 
-            case EDIT_JOB_REJECTED:
+            case UPDATE_JOB_REJECTED:
                 return{
                     ...state,
                     isLoading : false,
                     isError : true
                 }
 
-            case EDIT_JOB_FULFILLED:
+            case UPDATE_JOB_FULFILLED:
                 return{
                     ...state,
                     isLoading : false,
-                    jobs : state.jobs.map(job => (job.id === action.payload.data.id) ?
-                    action.payload.data : job)
+                    data : state.data.map(data => (data.id === action.payload.data.data.id) ?
+                    action.payload.data.data : data)
                 }
 
-            case REMOVE_JOB_PENDING:
+            case DELETE_JOB_PENDING:
                 return{
                     ...state,
                     isLoading : true
                 }
                 
-            case REMOVE_JOB_REJECTED:
+            case DELETE_JOB_REJECTED:
                 return{
                     ...state,
                     isLoading : false,
                     isError : true
                 }    
             
-            case REMOVE_JOB_FULFILLED:
+            case DELETE_JOB_FULFILLED:
                 return{
                     ...state,
-                    jobs : state.jobs.filter(job => job.id !== action.payload.data.id),
+                    data : state.data.filter(data => data.id !== action.payload.data.id),
                     isLoading : false
                 }    
 
         default :
             return state
-            
-            //[...state.data.results ,action.payload.data.results]
     }
 }
 

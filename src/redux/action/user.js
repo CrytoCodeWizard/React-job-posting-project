@@ -3,20 +3,34 @@ import axios from 'axios'
 export const getUser = ()=>{
     return{
         type : 'GET_USER',
-        payload : axios.get('https://localhost:2000/user')
+        payload : axios.get('http://localhost:2000/user')
+    }
+}
+
+export const addUser = (account)=>{
+    return{
+        type : 'ADD_USER',
+        payload : axios.post('http://localhost:2000/user/signup' ,account)
     }
 }
 
 export const updateUser = (id)=>{
     return{
         type : 'UPDATE_USER',
-        payload : axios.get('https://localhost:2000/user/' + id)
+        payload : axios.patch('http://localhost:2000/user/' + id)
     }
 }
 
 export const deleteUser = (id)=>{
     return{
         type : 'DELETE_USER',
-        payload : axios.get('https://localhost:2000/user/' + id)
+        payload : axios.delete('http://localhost:2000/user/' + id)
+    }
+}
+
+export const loginUser = (email,password)=>{
+    return{
+        type : 'LOGIN_USER',
+        payload : axios.post('http://localhost:2000/user', email,password)
     }
 }

@@ -15,7 +15,8 @@ import Signup from './pages/Signup'
 import Detail from './pages/Detail'
 import SignUpCompany from './pages/SignUpCompany'
 import ErroPage from './pages/Error' 
-import Pic1 from './images/jobpic.png'
+import {Provider} from 'react-redux'
+import store from './redux/store'
 
 class App extends Component {
 
@@ -27,6 +28,7 @@ class App extends Component {
     return (
       <div>
         <BrowserRouter>
+        <Provider store={store}>
         <Navbar/>
         
         <Switch>
@@ -44,6 +46,7 @@ class App extends Component {
         <Route component={ErroPage}/>
         </Switch>
         
+        </Provider>
         </BrowserRouter>
         
 

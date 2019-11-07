@@ -1,4 +1,7 @@
-import { GET_COMPANY_PENDING, GET_COMPANY_REJECTED, GET_COMPANY_FULFILLED, ADD_COMPANY_PENDING, ADD_COMPANY_REJECTED, ADD_COMPANY_FULFILLED, REMOVE_JOB_PENDING, REMOVE_JOB_REJECTED, REMOVE_JOB_FULFILLED, EDIT_COMPANY_PENDING, EDIT_COMPANY_REJECTED, EDIT_COMPANY_FULFILLED } from './../constanta/actiontypes'
+import { GET_COMPANY_PENDING, GET_COMPANY_REJECTED, 
+    GET_COMPANY_FULFILLED, ADD_COMPANY_PENDING, ADD_COMPANY_REJECTED, 
+    ADD_COMPANY_FULFILLED, DELETE_JOB_PENDING, DELETE_JOB_REJECTED, DELETE_JOB_FULFILLED, 
+    UPDATE_COMPANY_PENDING, UPDATE_COMPANY_REJECTED, UPDATE_COMPANY_FULFILLED } from './../constants/actiontypes'
 
 
 const initialState = {
@@ -6,7 +9,7 @@ const initialState = {
     isError : false,
     data : []
 }
-
+ 
 const company = ( state = initialState, action) => {
     switch(action.type){
         case GET_COMPANY_PENDING:
@@ -17,17 +20,19 @@ const company = ( state = initialState, action) => {
 
             case GET_COMPANY_REJECTED:
                 return{
+                    ...state,
                     isLoading: false,
                     isError : true
                 }
             case GET_COMPANY_FULFILLED:
                 return{
+                    ...state,
                     isLoading: false,
                     isError : false,
-                    companies : action.payload.data
+                    data : action.payload.data.data
                 } 
 
-                case ADD_COMPANY_PENDING:
+            case ADD_COMPANY_PENDING:
             return{
                 ...state,
                 isLoading : true
@@ -42,44 +47,45 @@ const company = ( state = initialState, action) => {
                 return{
                     isLoading: false,
                     isError : false,
-                    companies : [...state.companies,action.payload.data]
+                    data : [...state.data,action.payload.data]
                 } 
 
-            case EDIT_COMPANY_PENDING:
+            case UPDATE_COMPANY_PENDING:
             return{
                 ...state,
                 isLoading : true
             }
 
-            case EDIT_COMPANY_REJECTED:
+            case UPDATE_COMPANY_REJECTED:
                 return{
                     isLoading: false,
                     isError : true
                 }
-            case EDIT_COMPANY_FULFILLED:
+            case UPDATE_COMPANY_FULFILLED:
                 return{
                     isLoading: false,
                     isError : false,
-                    companies : state.companies.map(company => (company.id === action.payload.data.id) ?
-                    action.payload.data : company)
+                    data : state.data.map(data => (data.id === action.payload.data.data.id) ?
+                    action.payload.data : data)
                 } 
                 
-            case REMOVE_JOB_PENDING:
+            case DELETE_JOB_PENDING:
             return{
                 ...state,
                 isLoading : true
             }
 
-            case REMOVE_JOB_REJECTED:
+            case DELETE_JOB_REJECTED:
                 return{
                     isLoading: false,
                     isError : true
                 }
-            case REMOVE_JOB_FULFILLED:
+            case DELETE_JOB_FULFILLED:
                 return{
+                    ...state,
                     isLoading: false,
                     isError : false,
-                    companies : state.companies.filter(companies => companies.id !== action.payload.data.id)
+                    data : state.data.filter(data => data.id !== action.payload.data.id)
                 } 
         default :
             return state

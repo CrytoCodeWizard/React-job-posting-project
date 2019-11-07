@@ -4,10 +4,14 @@ import axios from 'axios'
 import {
     Spinner,Button,Container
   } from 'reactstrap';
-  import { Form, FormGroup, Label, Input , Modal, ModalHeader, ModalBody} from 'reactstrap';
+import { Form, FormGroup, Label, Input , Modal, ModalHeader, ModalBody} from 'reactstrap';
+import {connect} from 'react-redux'
+import {addCompany} from './../../redux/action/company'
+import {getCompany} from './../../redux/action/company'
+import {updateCompany} from './../../redux/action/company'
+import {deleteCompany} from './../../redux/action/company'
 
-
-export default class CrudCompany extends Component {
+class CrudCompany extends Component {
     constructor(props){
         super(props)
         this.state = {
@@ -28,25 +32,37 @@ export default class CrudCompany extends Component {
     componentDidMount(){
         this.getData();
         }
-  
-      getData = ()=>{
-        axios.get('http://localhost:2000/company').then(res => {
-          this.setState({data: res.data ,isLoading: false})
-        }) 
+   
+      // getData = ()=>{
+      //   axios.get('http://localhost:2000/company').then(res => {
+      //     this.setState({data: res.data ,isLoading: false})
+      //   }) 
+      // }
+      getData = async() => {
+        await this.props.dispatch(getCompany())
       }
       
-      deleteData = (id)=>{
-        if (window.confirm('Are you sure you want to save this thing into the database?')) {
-        axios.delete(`http://localhost:2000/company/${id}`).then(data=>{
-          this.setState({isLoading:false})
-          this.getData()
-        }).catch(err => {
-          console.log(err)
-        })} else {
-          this.getData()
-      }
+      // deleteData = (id)=>{
+      //   if (window.confirm('Are you sure you want to save this thing into the database?')) {
+      //   axios.delete(`http://localhost:2000/company/${id}`).then(data=>{
+      //     this.setState({isLoading:false})
+      //     this.getData()
+      //   }).catch(err => {
+      //     console.log(err)
+      //   })} else {
+      //     this.getData()
+      // }
         
+      // }
+      deleteData = async(id) => {
+        if (window.confirm('Are you sure you want to save this thing into the database?')) {
+          await this.props.dispatch(deleteCompany(id))
+        }else{
+          this.setState({isOpen : false})
+        }
+        this.getData()
       }
+
   
       buttonPress = async(page)=>{
         this.setState({isLoading:false}) 
@@ -58,16 +74,17 @@ export default class CrudCompany extends Component {
       //update
 
       toggleupdate = (id)=>{
-        this.setState({
-          isOpenUpdate : !this.state.isOpenUpdate,
-          id
-        })
+        this.setState({isOpenUpdate : !this.state.isOpenUpdate,id})
       }
 
-      updateCompany = async(id,datacompany) => {
-        const user = await axios.patch(`http://localhost:2000/company/${id}`,(datacompany))
-        return user.data 
-       }
+      // updateCompany = async(id,datacompany) => {
+      //   const user = await axios.patch(`http://localhost:2000/company/${id}`,(datacompany))
+      //   return user.data 
+      //  }
+
+      updateCompany = async(id,datacompany) =>{
+        await this.props.dispatch(updateCompany(id,datacompany))
+      }
 
        handleSubmitUpdate = event => {
         event.preventDefault();
@@ -83,8 +100,6 @@ export default class CrudCompany extends Component {
      
         this.updateCompany(id,formData)
           .then(res => {
-            console.log(res.status);
-            console.log(res.data)
             alert('Success to Update Data')
             this.getData()
             this.setState({isOpenUpdate : false})
@@ -97,11 +112,13 @@ export default class CrudCompany extends Component {
       
       //end update
 
-
       //add data
-      addCompany = async(datacompany) => {
-        const user = await axios.post('http://localhost:2000/company',(datacompany))
-        return user.data 
+      // addCompany = async(datacompany) => {
+      //   const user = await axios.post('http://localhost:2000/company',(datacompany))
+      //   return user.data 
+      //  }
+      addCompany = async(dataCompany) => {
+        await this.props.dispatch(addCompany(dataCompany))
        }
 
       handlenameChange = event => {
@@ -143,7 +160,7 @@ export default class CrudCompany extends Component {
        }
     
        cancelCourse = () => { 
-        document.getElementById("register").reset();
+        document.getElementById("updateCompany").reset();
       }
       //end add data
   
@@ -186,15 +203,15 @@ export default class CrudCompany extends Component {
  
         )}
 
-        {this.state.isLoading&&(
+        {this.props.company.isLoading&&(
         <div><Spinner style={{ width: '3rem', height: '3rem' }} type="grow" /></div>
       )}
 
-    {!this.state.isLoading&&
+    {!this.props.company.isLoading&&
     
     <React.Fragment>
     { 
-      this.state.data.data.map((v,i)=>(  
+      this.props.company.data.map((v,i)=>(  
 
     <div className="row no-gutters shadow-lg p-3 mb-5 bg-white rounded" key={i.toString()} >
       {/*  */}
@@ -218,8 +235,6 @@ export default class CrudCompany extends Component {
 {this.state.isOpenUpdate &&(  
   
   <Modal isOpen={this.state.isOpenUpdate} toggle={this.toggleupdate} >
-    {console.log(this.state.data.data[0].id + " " + this.state.id)}
-    {this.state.id&&(
      <React.Fragment> 
     <ModalHeader toggle={this.toggleupdate}>EDIT COMPANY</ModalHeader>
     <ModalBody>
@@ -245,7 +260,6 @@ export default class CrudCompany extends Component {
 </Form>
     </ModalBody>
     </React.Fragment> 
-    )}  
   </Modal>
 
     )}  
@@ -267,3 +281,9 @@ export default class CrudCompany extends Component {
     }
   
 }
+
+const mapStateProps = state => ({
+  company : state.company
+})
+
+export default connect(mapStateProps)(CrudCompany);

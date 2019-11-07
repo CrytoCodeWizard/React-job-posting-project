@@ -4,12 +4,10 @@
 import axios from 'axios';
 import React, {Component} from 'react';
 import { withRouter } from "react-router";
-import {BrowserRouter,Route,Switch,Link} from 'react-router-dom'
 import {Row, Col, Container, Button,Form, FormGroup, Label, Input,Card } from 'reactstrap'
-import { ButtonGroup } from 'reactstrap';
 import { Spinner } from 'reactstrap';
-import Img from './../logo.svg'
-
+import {connect} from 'react-redux'
+import {getJob} from './../redux/action/job'
 
 class JobItems extends Component{
 
@@ -28,25 +26,29 @@ class JobItems extends Component{
     }
 
     componentDidMount(){
-      this.getData().then(data=>{
-        this.setState(
-          {
-           data,
-           next:data.next,
-           previous:data.prev,
-           tot : data.total_data,
-           isLoading:false
-          }
-           )
-        })
+      this.getData();
+      // .then(data=>{
+      //   this.setState(
+      //     {
+      //      data,
+      //     //  next:data.next,
+      //     //  previous:data.prev,
+      //     //  tot : data.total_data,
+      //      isLoading:false
+      //     }
+      //      )
+      //   })
       }
       
 
-    getData = async(page)=>{
-      const job = await axios.get(page !== undefined ? page:'http://localhost:2000/job')
-      return job.data  
-    }
+    // getData = async(page)=>{
+    //   const job = await axios.get(page !== undefined ? page:'http://localhost:2000/job')
+    //   return job.data  
+    // }
 
+    getData = async() => {
+      await this.props.dispatch(getJob())
+    }
 
     goToDetail = (id)=>{
       this.props.history.push(`/detail/${id}`)
@@ -127,15 +129,14 @@ render() {
     <div>  
 
       {
-        this.state.isLoading&&(
+        this.props.job.isLoading&&(
         <div><Spinner style={{ width: '3rem', height: '3rem' }} type="grow" /></div>
       )}
 
-    {!this.state.isLoading&&
+    {!this.props.job.isLoading&&
     
     <React.Fragment>
-    { 
-      this.state.data.data.map((v,i)=>(  
+    {this.props.job.data.map((v,i)=>(  
     
     <div className="row no-gutters shadow-lg p-3 mb-5 bg-white rounded" key={i.toString()} >
       {/*  */}
@@ -146,8 +147,9 @@ render() {
       <div className="col-md-8">
       <div className="card-body">
         <h5 className="card-title btn-link text-dark" onClick={()=>this.goToDetail(v.id)}>{v.name}</h5>
-        <p className="card-text"><small className="text-muted"><i className = "fa fa-building-o "> {v.company} </i></small> | <small className="text-muted"><i className="fa fa-money"> {v.salary}</i></small> | <small className="text-muted"><i className="fa fa-map-marker"> {v.location} </i></small></p>
-        <p className="card-text">{v.description}</p>
+        <p className="card-text"><i className = "fa fa-building-o "> {v.company} </i></p>
+        <p className="card-text"><i className="fa fa-money"> {v.salary}</i></p>
+        <p className="card-text"><i className="fa fa-map-marker"> {v.location} </i></p>
         <p className="card-text"><small className="text-muted">{v.date_updated}</small></p>
       </div>
     </div>
@@ -173,8 +175,12 @@ render() {
 </nav>
 </div>
 </div>
-    );
+     );
   }
 };
 
-export default withRouter(JobItems)
+const mapStateProps = state => ({
+  job : state.job
+})
+
+export default connect(mapStateProps)(withRouter(JobItems))

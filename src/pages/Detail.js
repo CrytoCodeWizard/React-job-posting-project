@@ -56,10 +56,10 @@ export default class Detail extends Component {
               <h1 className="display-3 text-center">{this.state.data.company}</h1>
               <h5 className="margin-form text-center">Location</h5>
               <p className="lead text-center">{this.state.data.location}</p>
-              <h5 className="margin-form text-center">Name</h5>
+              <h5 className="margin-form text-center">Job Name</h5>
               <p className="margin-form text-center">{this.state.data.name}</p>  
               <h5 className="margin-form text-center">Salary</h5>
-              <p className="margin-form text-center">$.{this.state.data.salary}</p> 
+              <p className="margin-form text-center">Rp.{this.state.data.salary}</p> 
               <h5 className="margin-form text-center">Job Description</h5>
               <p className="margin-form text-center">{this.state.data.description}</p>
               </Container>
