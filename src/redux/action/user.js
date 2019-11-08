@@ -14,10 +14,10 @@ export const addUser = (account)=>{
     }
 }
 
-export const updateUser = (id)=>{
+export const updateUser = (id,dataUser)=>{
     return{
         type : 'UPDATE_USER',
-        payload : axios.patch('http://localhost:2000/user/' + id)
+        payload : axios.patch('http://localhost:2000/user/' + id,dataUser)
     }
 }
 

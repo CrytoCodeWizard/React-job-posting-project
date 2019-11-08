@@ -23,6 +23,7 @@ class CrudJob extends Component {
             next: false,
             previous: '',
             tot : '',
+            categ : []
         }
     }
 
@@ -34,6 +35,16 @@ class CrudJob extends Component {
 
     componentDidMount(){
         this.getData()
+         this.getCategory()  
+        }
+
+        getCategory = () => {
+          axios.get('http://localhost:2000/categories').then(res => {
+          this.setState({categ : res.data.data
+          })
+          console.log(res.data.data)
+        })
+       
         }
 
         toggleupdate = (id)=>{
@@ -129,7 +140,7 @@ class CrudJob extends Component {
              return
            })
        }
-
+      
        cancelCourse = () => { 
         document.getElementById("register").reset();
       }
@@ -170,6 +181,10 @@ class CrudJob extends Component {
       }
 
     render(){
+      let options = this.state.categ.map((v,i) => {
+        return { value: v.id, label: v.name };
+      })  
+     console.log(options) 
     return (
         <div>
        <Container>
@@ -192,6 +207,14 @@ class CrudJob extends Component {
         <Label for="description">Description</Label>
         <Input type="textarea" name="description" id="description" onChange={this.handleDescriptionChange} placeholder="Enter your job description" required/>
       </FormGroup>
+      {/* <FormGroup>
+        <Label for="category">Select</Label>
+        <Input type="select" name="id_category" id="id_category" 
+        options = {}
+        onChange={this.handleCategoryChange} >
+        <option ></option>
+        </Input>
+      </FormGroup> */}
       <FormGroup>
         <Label for="id_category">ID Category</Label>
         <Input type="number" name="id_category" id="id_category" onChange={this.handleCategoryChange} placeholder="Enter your id category" required/>
@@ -248,7 +271,7 @@ class CrudJob extends Component {
     <ModalHeader toggle={this.toggleupdate}>EDIT JOB</ModalHeader>
     <ModalBody>
     <br></br>
-    <Form id={v.id} method="post" onSubmit ={this.handleSubmitUpdate}>
+    <Form id="edit" method="post" onSubmit ={this.handleSubmitUpdate}>
     <FormGroup>
         <Label for="name">Job Name</Label>
         <Input type="text" name="name" id="name" onChange={this.handlenameChange}  defaultValue={v.name} placeholder="Enter your name" required/>

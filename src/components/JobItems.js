@@ -8,6 +8,8 @@ import {Row, Col, Container, Button,Form, FormGroup, Label, Input,Card } from 'r
 import { Spinner } from 'reactstrap';
 import {connect} from 'react-redux'
 import {getJob} from './../redux/action/job'
+import {getJobOrderBy} from './../redux/action/job'
+import {getJobSearch} from './../redux/action/job'
 
 class JobItems extends Component{
 
@@ -46,19 +48,22 @@ class JobItems extends Component{
     //   return job.data  
     // }
 
-    getData = async() => {
-      await this.props.dispatch(getJob())
+    getData = async(page) => {
+      await this.props.dispatch(getJob(page !== undefined ? page : 1))
     }
 
     goToDetail = (id)=>{
       this.props.history.push(`/detail/${id}`)
     }
 
-    buttonPress = async(page)=>{
-      this.setState({isLoading:false}) 
-      this.getData(page).then(data=>{
-        this.setState({data,next:data.next,previous:data.prev,tot : data.total_data,isLoading:false})
-      })
+    // buttonPress = async(page)=>{
+    //   this.setState({isLoading:false}) 
+    //   this.getData(page).then(data=>{
+    //     this.setState({data,next:data.next,previous:data.prev,tot : data.total_data,isLoading:false})
+    //   })
+    // }  
+    buttonPress = async()=>{
+      this.getData()    
     }  
 
     queryNameChange = (e)=>{
@@ -69,16 +74,20 @@ class JobItems extends Component{
       const queryCompany = e.target.value
       this.setState({queryCompany})
     }
-  
-    doSearch = async(nWord,cWord)=>{
-     let page='http://localhost:2000/job?name='+nWord+'&company='+cWord;
-      this.setState({isLoading:true})
-      this.getData(page).then(data=>{
-        this.setState({data,
-          previous: data.prev,
-          next: data.next,
-          isLoading:false})
-      })
+   
+    // doSearch = async(nWord,cWord)=>{
+    //  let page='http://localhost:2000/job?name='+nWord+'&company='+cWord;
+    //   this.setState({isLoading:true})
+    //   this.getData(page).then(data=>{
+    //     this.setState({data,
+    //       previous: data.prev,
+    //       next: data.next,
+    //       isLoading:false})
+    //   })
+    // }
+
+    doSearch = async(name,company) => {
+      await this.props.dispatch(getJobSearch(name,company))
     }
 
     mQueryOrderByChange = (e)=>{
@@ -86,18 +95,22 @@ class JobItems extends Component{
       this.setState({mQuery})
     }
 
+    // doOrderBy = async(mQuery) => {
+    //   let page=`http://localhost:2000/job?orderby=${mQuery}`
+    //   this.setState({isLoading:true})
+    //   this.getData(page).then(data=>{
+    //     this.setState({data,
+    //       previous: data.prev,
+    //       next: data.next,
+    //       isLoading:false})
+    //   }).catch(err => {
+    //     console.log(err)
+    //   })
+    //   console.log(mQuery)
+    // }
+
     doOrderBy = async(mQuery) => {
-      let page=`http://localhost:2000/job?orderby=${mQuery}`
-      this.setState({isLoading:true})
-      this.getData(page).then(data=>{
-        this.setState({data,
-          previous: data.prev,
-          next: data.next,
-          isLoading:false})
-      }).catch(err => {
-        console.log(err)
-      })
-      console.log(mQuery)
+      await this.props.dispatch(getJobOrderBy(mQuery))
     }
 
 render() {
@@ -114,14 +127,14 @@ render() {
         <Input type="text" name="company" id="company" placeholder="Search by company" className ="form-control"
         onChange={this.queryCompanyChange} value={queryCompany} />
 
-      <select className="form-control" id="orderby" onChange={this.mQueryOrderByChange} onClick={()=> this.doOrderBy(mQuery)}>
+      <select className="form-control " id="orderby" onChange={this.mQueryOrderByChange} onClick={()=> this.doOrderBy(mQuery)}>
         <option value = " ">Sort By</option>
         <option value="name" >Name</option>
         <option value="company">Company</option>
         <option value="date_updated">Newest</option>
       </select>
 
-        <Button className="btn btn-success" onClick={()=>this.doSearch(queryName,queryCompany)} >Search</Button>
+        <Button className="btn btn-success " onClick={()=>this.doSearch(queryName,queryCompany)} >Search</Button>
       
       </FormGroup>
     </Form>
@@ -138,7 +151,7 @@ render() {
     <React.Fragment>
     {this.props.job.data.map((v,i)=>(  
     
-    <div className="row no-gutters shadow-lg p-3 mb-5 bg-white rounded" key={i.toString()} >
+    <div className="row no-gutters shadow-lg p-2 mb-3 bg-white rounded" key={i.toString()} >
       {/*  */}
     <div className="col-md-4">
       <img  src={v.logo} className="card-img App-img" alt={v.name} width="120px" height="160px" onClick={()=>this.goToDetail(v.id)}/>
@@ -164,12 +177,12 @@ render() {
     {
         this.state.previous === ' ' ? null :
         <li className="page-item">
-         <a className="page-link" onClick={()=>this.buttonPress(this.state.previous)} tabindex="-1" aria-disabled="false">Previous</a>
+         <a className="page-link" onClick={()=>this.buttonPress(this.props.job.prev)} tabindex="-1" aria-disabled="false">Previous</a>
         </li>
       }  
         <li className="page-item">
         {
-        this.state.next === ' ' ? null :<a className="page-link" onClick={()=>this.buttonPress(this.state.next)} tabindex="-1">Next</a>
+        this.state.next === ' ' ? null :<a className="page-link" onClick={()=>this.buttonPress(this.props.job.next)} tabindex="-1">Next</a>
         }</li>
     </ul>
 </nav>

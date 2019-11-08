@@ -11,6 +11,42 @@
   margin-left: 20px;
 }
 
+.right-search {
+  height: 50px;
+}
+
+.search-name{
+  width: 30%;
+  padding: 20px;
+  color: #424242;
+  outline: none;
+}
+
+.search-company {
+  width: 30%;
+  padding: 20px;
+  color: #424242;
+  outline: none;
+}
+
+.sort-by{
+  width: 20%;
+  /* padding: 20px; */
+  color: #424242;
+  outline: none;
+}
+
+.button-search {
+  display: block;
+    width: 20%;
+    /* height: 100%; */
+    background: #33ef3c;
+    color: #fff;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-size: 14px;
+}
+
 .shadow-img{
   box-shadow: 0px 0px 7px 0px black;
   margin-left: 20px;

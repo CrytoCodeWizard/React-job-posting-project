@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from 'react'
 import axios from 'axios'
-import {BrowserRouter,Route,Switch,Link, withRouter } from 'react-router-dom'
+import {Link, withRouter } from 'react-router-dom'
 import {Row, Col, Container, Button } from 'reactstrap'
 import Logo from './../images/logo-site.png';
 import Login from './../pages/Login'
@@ -46,8 +46,8 @@ class Navbar extends Component {
 
 <div className="container">
 <Link to='/' className="navbar-brand"><img src={Logo} alt="image" width="120px"/></Link>
-<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-<span class="navbar-toggler-icon"></span>
+<button className="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+<span className="navbar-toggler-icon"></span>
 <span></span>
 <span></span>
 <span></span>

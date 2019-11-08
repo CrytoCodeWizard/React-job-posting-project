@@ -1,9 +1,30 @@
 import axios from 'axios'
 
-export const getJob = ()=>{
+export const getJob = (query)=>{
     return{
         type : 'GET_JOB',
-        payload : axios.get('http://localhost:2000/job')
+        payload : axios.get('http://localhost:2000/job?page='+query)
+    }
+}
+
+export const getJobId = (id)=>{
+    return{
+        type : 'GET_JOB',
+        payload : axios.get('http://localhost:2000/job/'+id)
+    }
+}
+
+export const getJobSearch = (name,company)=>{
+    return{
+        type : 'GET_JOB',
+        payload : axios.get('http://localhost:2000/job?name='+ name +'&company='+ company)
+    }
+}
+
+export const getJobOrderBy = (query)=>{
+    return{
+        type : 'GET_JOB',
+        payload : axios.get('http://localhost:2000/job?orderby='+ query)
     }
 }
 

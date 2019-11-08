@@ -50,8 +50,6 @@ export default class Login extends Component {
           localStorage.setItem('Authorization',res.token)
           alert('Succes to Login')
           this.props.history.push(`postjobs/crudjob`);
-          
-          window.location.reload()
         }
       }).catch((err) => {
         alert('Email or Password is incorrect')

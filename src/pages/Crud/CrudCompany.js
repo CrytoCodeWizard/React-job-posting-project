@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {Component} from 'react'
-import axios from 'axios'
+
 import {
     Spinner,Button,Container
   } from 'reactstrap';
@@ -72,7 +72,6 @@ class CrudCompany extends Component {
       }  
 
       //update
-
       toggleupdate = (id)=>{
         this.setState({isOpenUpdate : !this.state.isOpenUpdate,id})
       }
@@ -117,6 +116,7 @@ class CrudCompany extends Component {
       //   const user = await axios.post('http://localhost:2000/company',(datacompany))
       //   return user.data 
       //  }
+      
       addCompany = async(dataCompany) => {
         await this.props.dispatch(addCompany(dataCompany))
        }
