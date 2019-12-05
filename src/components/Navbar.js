@@ -13,23 +13,28 @@ class Navbar extends Component {
     super(props)
     this.state = {
       data: {},
-      token : localStorage.getItem('Authorization'),
+      token : '',
       isLogin : false
     }
   }
 
   getData = async(page)=>{
-    const job = await axios.get(page !== undefined ? page:'http://localhost:2000/user')
+    const job = await axios.get(page !== undefined ? page:'http://35.175.244.140:8080/user')
     return job.data  
   }
   
-  componentDidMount(){
-    this.getData().then(res => {
-      this.setState({data : res.data})
+  async componentDidMount(){
+    this.getData().then(async res => {
+      const token = await localStorage.getItem('Authorization')
+      this.setState({
+        data : res.data,
+        token,
+      })
       console.log(res.data)
     })
+    console.log(this.state)
     if(this.state.token){
-      this.setState({isLogin : true})
+      this.setState({isLogin : true})  
     }else{
       this.setState({isLogin : false})
     }
@@ -38,14 +43,15 @@ class Navbar extends Component {
   removeToken = () => {
     localStorage.removeItem('Authorization')
     this.props.history.push('/login')
+    this.setState({isLogin:false})
     window.location.reload()
   }
   render(){
     return (
-<nav className="navbar header-nav navbar-expand-lg bg-success">
+<nav className="navbar header-nav navbar-expand-lg background-navbar">
 
 <div className="container">
-<Link to='/' className="navbar-brand"><img src={Logo} alt="image" width="120px"/></Link>
+<Link to='/' className="navbar-brand font-navbar">GEEK JOBS</Link>
 <button className="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 <span className="navbar-toggler-icon"></span>
 <span></span>
@@ -56,19 +62,19 @@ class Navbar extends Component {
     <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
     <ul className="navbar-nav">
         <li className="nav-item active ">
-         <Link to='/findjobs' className="nav-link text-light">Find Jobs</Link>
+         <Link to='/findjobs' className="nav-link text-light font-sub-nav">Find Jobs</Link>
       </li>
       <li className="nav-item">
-      <Link to='/blog' className="nav-link  text-light" >News</Link>
+      <Link to='/blog' className="nav-link  text-light font-sub-nav" >News</Link>
      </li>
       <li className="nav-item">
-      <Link to='/about' className="nav-link  text-light" >About</Link>
+      <Link to='/about' className="nav-link  text-light font-sub-nav" >About</Link>
       </li>
     </ul>
       <div className="my-2 my-lg-0">
-      <Link to='/login'><button className="btn btn-link text-white " type="button" value="Login">Login</button></Link>
-      <Link to='/signup'><input className="btn btn-dark btn-sm" type="button" value="Sign Up"></input></Link>
-      <Link to='/signupcompany'><input className="btn btn-outline-light btn-sm" type="button" value="For Company"></input></Link>
+      <Link to='/login'><button className="btn btn-outline-light btn-sm font-login" type="button" value="Login">Login</button></Link>
+      <Link to='/signup'><input className="btn btn-dark btn-sm font-login" type="button" value="Sign Up"></input></Link>
+      {/* <Link to='/signupcompany'><input className="btn btn-outline-light btn-sm" type="button" value="For Company"></input></Link> */}
      </div> 
        
     </div>
@@ -77,19 +83,19 @@ class Navbar extends Component {
      <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
      <ul className="navbar-nav">
      <li className="nav-item active">
-      <Link to='/findjobs' className="nav-link text-light">Find Jobs</Link>
+      <Link to='/findjobs' className="nav-link text-light font-sub-nav">Find Jobs</Link>
    </li>
    <li className="nav-item">
-   <Link to='/blog' className="nav-link  text-light" href="#">News</Link>
+   <Link to='/blog' className="nav-link  text-light font-sub-nav" href="#">News</Link>
   </li>
    <li className="nav-item">
-   <Link to='/about' className="nav-link  text-light" href="#">About</Link>
+   <Link to='/about' className="nav-link  text-light font-sub-nav" href="#">About</Link>
    </li>
 
      </ul>
    <div className="my-2 my-lg-0">
-   <Link to='/postjobs/crudjob' className="btn btn-danger btn-sm">Post Jobs</Link>  
-   <Link to='/login'><button className="btn btn-dark btn-sm" type="button" value="Logout" onClick ={()=> this.removeToken()}>Logout</button></Link>
+   <Link to='/postjobs/crudjob' className="btn btn-danger btn-sm font-login">Dasboard</Link>  
+   <Link to='/login'><button className="btn btn-dark btn-sm font-login" type="button" value="Logout" onClick ={()=> this.removeToken()}>Logout</button></Link>
    </div>    
  </div>
   )}  

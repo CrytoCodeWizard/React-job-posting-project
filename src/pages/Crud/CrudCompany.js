@@ -1,10 +1,10 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
+  /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {Component} from 'react'
 
 import {
     Spinner,Button,Container
   } from 'reactstrap';
-import { Form, FormGroup, Label, Input , Modal, ModalHeader, ModalBody} from 'reactstrap';
+import { Form, FormGroup, Label, Input , Modal, ModalHeader, ModalBody,Table} from 'reactstrap';
 import {connect} from 'react-redux'
 import {addCompany} from './../../redux/action/company'
 import {getCompany} from './../../redux/action/company'
@@ -21,7 +21,14 @@ class CrudCompany extends Component {
             isLoading : true,
             next: false,
             previous: '',
-            itemId : props.match.params.id
+            itemId : props.match.params.id,
+            updateData: {
+              description: '',
+              id: '',
+              location: '',
+              logo: '',
+              name: '',
+            },
         }
     }
 
@@ -42,18 +49,6 @@ class CrudCompany extends Component {
         await this.props.dispatch(getCompany())
       }
       
-      // deleteData = (id)=>{
-      //   if (window.confirm('Are you sure you want to save this thing into the database?')) {
-      //   axios.delete(`http://localhost:2000/company/${id}`).then(data=>{
-      //     this.setState({isLoading:false})
-      //     this.getData()
-      //   }).catch(err => {
-      //     console.log(err)
-      //   })} else {
-      //     this.getData()
-      // }
-        
-      // }
       deleteData = async(id) => {
         if (window.confirm('Are you sure you want to save this thing into the database?')) {
           await this.props.dispatch(deleteCompany(id))
@@ -72,14 +67,12 @@ class CrudCompany extends Component {
       }  
 
       //update
-      toggleupdate = (id)=>{
-        this.setState({isOpenUpdate : !this.state.isOpenUpdate,id})
+      toggleupdate = (data)=>{
+        this.setState({
+          isOpenUpdate : !this.state.isOpenUpdate,
+          updateData: data,
+        })
       }
-
-      // updateCompany = async(id,datacompany) => {
-      //   const user = await axios.patch(`http://localhost:2000/company/${id}`,(datacompany))
-      //   return user.data 
-      //  }
 
       updateCompany = async(id,datacompany) =>{
         await this.props.dispatch(updateCompany(id,datacompany))
@@ -88,7 +81,7 @@ class CrudCompany extends Component {
        handleSubmitUpdate = event => {
         event.preventDefault();
     
-       const id = this.state.id
+       const id = this.state.updateData.id
    
        const formData = new FormData();
        formData.append('name',event.target.name.value)
@@ -212,26 +205,53 @@ class CrudCompany extends Component {
     <React.Fragment>
     { 
       this.props.company.data.map((v,i)=>(  
+        <Table responsive> 
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Company Name</th>
+            <th>Image</th>
+            <th>Location</th>
+            <th>Description</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+           <th scope="row">{v.id}</th>
+           <td>{v.name}</td>
+           <td><img  src={v.logo} alt={v.name} width="50px" height="60px"/></td>
+           <td>{v.location}</td>
+           <td>{v.description}</td>
+           <td>
+            <Button className="card-text bg-success" onClick={() => this.toggleupdate(v)} ><i className="fa fa-edit"></i></Button>
+           <Button className="card-text bg-danger" onClick={()=> this.deleteData(v.id)}><i className="fa fa-trash"> </i></Button>
+           </td>
+          </tr>
+        </tbody>
+      </Table>  
 
-    <div className="row no-gutters shadow-lg p-3 mb-5 bg-white rounded" key={i.toString()} >
-      {/*  */}
-    <div className="col-md-4">
-      <img  src={v.logo} className="card-img App-img" alt={v.name} width="120px" height="160px"/>
-    </div>
+    // <div className="row no-gutters shadow-lg p-3 mb-5 bg-white rounded" key={i.toString()} >
+    // <div className="col-md-4">
+    //   <img  src={v.logo} className="card-img App-img" alt={v.name} width="120px" height="160px"/>
+    // </div>
     
-      <div className="col-md-8">
-      <div className="card-body">
-        <h5 className="card-title" >{v.name}</h5>
-        <p className="card-text"><small className="text-muted">{v.location}</small></p>
-        <p className="card-text">{v.description}</p>
-        <Button className="card-text bg-success" onClick={() => this.toggleupdate(v.id)} ><i className="fa fa-edit"> Update </i></Button>
-        <Button className="card-text bg-danger"style={{ marginLeft : '10px' }} onClick={()=> this.deleteData(v.id)}><i className="fa fa-trash"> Delete </i></Button>
+    //   <div className="col-md-8">
+    //   <div className="card-body">
+    //     <h5 className="card-title" >{v.name}</h5>
+    //     <p className="card-text"><small className="text-muted">{v.location}</small></p>
+    //     <p className="card-text">{v.description}</p>
+    //     <Button className="card-text bg-success" onClick={() => this.toggleupdate(v)} ><i className="fa fa-edit"> Update </i></Button>
+    //     <Button className="card-text bg-danger"style={{ marginLeft : '10px' }} onClick={()=> this.deleteData(v.id)}><i className="fa fa-trash"> Delete </i></Button>
   
-      </div>
+    //   </div>
+  // </div>
 
- 
- 
+  //  </div> 
+  ))}
     {/* update modal */}
+
+
 {this.state.isOpenUpdate &&(  
   
   <Modal isOpen={this.state.isOpenUpdate} toggle={this.toggleupdate} >
@@ -242,19 +262,19 @@ class CrudCompany extends Component {
     <Form id="update" method="post" onSubmit ={this.handleSubmitUpdate}>
     <FormGroup>
    <Label for="name">Name</Label>
-  <Input type="text" name="name" id="name" defaultValue={v.name}  onChange={this.handlenameChange} placeholder="Enter your name" required/>
+  <Input type="text" name="name" id="name" defaultValue={this.state.updateData.name}  onChange={this.handlenameChange} placeholder="Enter your name" required/>
 </FormGroup>
 <FormGroup>
 <Label for="logo">Logo</Label>
-<Input type="file" name="logo" id="logo" onChange={this.handleLogoChange} placeholder="Enter your Logo" required/>
+<Input type="file" name="logo" id="logo" onChange={this.handleLogoChange} placeholder="Enter your Logo" />
 </FormGroup>
 <FormGroup>
 <Label for="location">Location</Label>
-<Input type="text" name="location" id="location" onChange={this.handleLocationChange} defaultValue={v.location} placeholder="Enter your location" required/>
+<Input type="text" name="location" id="location" onChange={this.handleLocationChange} defaultValue={this.state.updateData.location} placeholder="Enter your location" required/>
 </FormGroup>
 <FormGroup>
 <Label for="description">Description</Label>
-<Input type="textarea" name="description" id="description" onChange={this.handleDescriptionChange} defaultValue={v.description} placeholder="Enter your company description" required/>
+<Input type="textarea" name="description" id="description" onChange={this.handleDescriptionChange} defaultValue={this.state.updateData.description} placeholder="Enter your company description" required/>
 </FormGroup>
 <Button className='button_login bg-success'>Submit</Button>
 </Form>
@@ -263,10 +283,6 @@ class CrudCompany extends Component {
   </Modal>
 
     )}  
-  </div>
-
-   </div> 
-  ))}
   </React.Fragment>
 
 }

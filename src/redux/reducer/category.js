@@ -1,7 +1,4 @@
-import { GET_COMPANY_PENDING, GET_COMPANY_REJECTED, 
-    GET_COMPANY_FULFILLED, ADD_COMPANY_PENDING, ADD_COMPANY_REJECTED, 
-    ADD_COMPANY_FULFILLED, DELETE_JOB_PENDING, DELETE_JOB_REJECTED, DELETE_JOB_FULFILLED, 
-    UPDATE_COMPANY_PENDING, UPDATE_COMPANY_REJECTED, UPDATE_COMPANY_FULFILLED, DELETE_COMPANY_PENDING, DELETE_COMPANY_REJECTED, DELETE_COMPANY_FULFILLED } from './../constants/actiontypes'
+import { GET_CATEGORY_PENDING, GET_CATEGORY_REJECTED, ADD_CATEGORY_FULFILLED, GET_CATEGORY_FULFILLED, ADD_CATEGORY_PENDING, ADD_CATEGORY_REJECTED, UPDATE_CATEGORY_PENDING, UPDATE_CATEGORY_REJECTED, UPDATE_CATEGORY_FULFILLED, DELETE_CATEGORY_PENDING, DELETE_CATEGORY_REJECTED, DELETE_CATEGORY_FULFILLED } from './../constants/actiontypes'
 
 
 const initialState = {
@@ -10,21 +7,21 @@ const initialState = {
     data : []
 }
  
-const company = ( state = initialState, action) => {
+const categories = ( state = initialState, action) => {
     switch(action.type){
-        case GET_COMPANY_PENDING:
+        case GET_CATEGORY_PENDING:
             return{
                 ...state,
                 isLoading : true
             }
 
-            case GET_COMPANY_REJECTED:
+            case GET_CATEGORY_REJECTED:
                 return{
                     ...state,
                     isLoading: false,
                     isError : true
                 }
-            case GET_COMPANY_FULFILLED:
+            case GET_CATEGORY_FULFILLED:
                 return{
                     ...state,
                     isLoading: false,
@@ -32,36 +29,36 @@ const company = ( state = initialState, action) => {
                     data : action.payload.data.data
                 } 
 
-            case ADD_COMPANY_PENDING:
+            case ADD_CATEGORY_PENDING:
             return{
                 ...state,
                 isLoading : true
             }
 
-            case ADD_COMPANY_REJECTED:
+            case ADD_CATEGORY_REJECTED:
                 return{
                     isLoading: false,
                     isError : true
                 }
-            case ADD_COMPANY_FULFILLED:
+            case ADD_CATEGORY_FULFILLED:
                 return{
                     isLoading: false,
                     isError : false,
                     data : [...state.data,action.payload.data]
                 } 
 
-            case UPDATE_COMPANY_PENDING:
+            case UPDATE_CATEGORY_PENDING:
             return{
                 ...state,
                 isLoading : true
             }
 
-            case UPDATE_COMPANY_REJECTED:
+            case UPDATE_CATEGORY_REJECTED:
                 return{
                     isLoading: false,
                     isError : true
                 }
-            case UPDATE_COMPANY_FULFILLED:
+            case UPDATE_CATEGORY_FULFILLED:
                 return{
                     isLoading: false,
                     isError : false,
@@ -69,18 +66,18 @@ const company = ( state = initialState, action) => {
                     action.payload.data : data)
                 } 
                 
-            case DELETE_COMPANY_PENDING:
+            case DELETE_CATEGORY_PENDING:
             return{
                 ...state,
                 isLoading : true
             }
 
-            case DELETE_COMPANY_REJECTED:
+            case DELETE_CATEGORY_REJECTED:
                 return{
                     isLoading: false,
                     isError : true
                 }
-            case DELETE_COMPANY_FULFILLED:
+            case DELETE_CATEGORY_FULFILLED:
                 return{
                     ...state,
                     isLoading: false,
@@ -92,4 +89,4 @@ const company = ( state = initialState, action) => {
     }
 }
 
-export default company
+export default categories

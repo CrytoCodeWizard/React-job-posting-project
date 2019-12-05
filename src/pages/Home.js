@@ -9,7 +9,7 @@ import Footer from './../components/Footer'
 import bgimage from './../images/jobpic.png'
 import bgimage2 from './../images/ben_img.jpg'
 import { Jumbotron} from 'reactstrap';
-
+import JobItems from './../components/JobItems'
 export default class Home extends Component {
 
   render() {
@@ -30,7 +30,7 @@ export default class Home extends Component {
       </Jumbotron>
 
       <Container>
-
+          <JobItems />
       </Container>
       <Footer/> 
       </div>

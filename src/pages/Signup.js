@@ -29,6 +29,14 @@ class Signup extends Component {
     this.setState({ username: event.target.value });
   }
 
+  handleSelectUserChange = event => {
+    this.setState({ selectUser : event.target.value });
+  }
+
+  handleNameChange = event => {
+    this.setState({ name: event.target.value });
+  }
+
    handleEmailChange = event => {
      this.setState({ email: event.target.value });
    }
@@ -43,7 +51,8 @@ class Signup extends Component {
      const account = {
        username : this.state.username,
        email: this.state.email,
-       password : this.state.password
+       password : this.state.password,
+       name : this.state.name,
      };
  
      this.addRegister(account)
@@ -70,6 +79,10 @@ class Signup extends Component {
         <Input type="text" name="username" id="username" onChange={this.handleUsernameChange} placeholder="Enter your Username" required/>
       </FormGroup>
       <FormGroup>
+        <Label for="name">Name</Label>
+        <Input type="text" name="name" id="name" onChange={this.handleNameChange} placeholder="Enter your Name" required/>
+      </FormGroup>
+      <FormGroup>
         <Label for="email">Email</Label>
         <Input type="email" name="email" id="email" onChange={this.handleEmailChange} placeholder="Enter your Email" required/>
       </FormGroup>
@@ -77,6 +90,7 @@ class Signup extends Component {
         <Label for="Password">Password</Label>
         <Input type="password" name="password" id="Password" onChange={this.handlePasswordChange} placeholder="Enter your Password" required/>
       </FormGroup>
+      <FormGroup></FormGroup>
       <Label>Already has an account?</Label><Link to='/login'> Sign in</Link>
       <Button className='button_login bg-success'>SIGN UP</Button>
     </Form>

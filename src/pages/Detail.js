@@ -22,7 +22,7 @@ export default class Detail extends Component {
       }
 
       getData = () => {
-        axios.get('http://localhost:2000/job/'+ this.state.id).then(res=>{
+        axios.get('http://35.175.244.140:8080/job/'+ this.state.id).then(res=>{
         for(let i = 0; i<res.data.data.length; i++){
         if(res.data.data[i].id === this.state.id){  
           this.setState({

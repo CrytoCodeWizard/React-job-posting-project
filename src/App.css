@@ -5,6 +5,7 @@
 .App-img {
   margin-top: 30px;
   margin-bottom: 16px;
+  width: 20%;
 }
 
 .left-img {
@@ -21,6 +22,8 @@
   color: #424242;
   outline: none;
 }
+
+
 
 .search-company {
   width: 30%;
@@ -167,4 +170,29 @@
   margin-right: 100px;
   margin-top: 16px;
   margin-bottom: 16px;
+}
+
+.font-navbar {
+  font-size: x-large;
+  font-weight: 500;
+  color: honeydew;
+}
+
+.background-navbar {
+  background-color: mediumseagreen;
+  border-bottom: solid;
+  border-bottom-color: green;
+}
+
+.font-sub-nav {
+  font-family: 'Crimson Pro', serif;
+}
+
+.font-login{
+  font-family: cursive;
+}
+
+.search-border2{
+  height: 50px;
+  border-radius: unset;
 }

@@ -1,10 +1,10 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
+/* esli nt-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/style-prop-object */
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import axios from 'axios';
 import React, {Component} from 'react';
 import { withRouter } from "react-router";
-import {Row, Col, Container, Button,Form, FormGroup, Label, Input,Card } from 'reactstrap'
+import {Row, Col, Container, Button,Form, FormGroup, Label, Input,Card,Pagination, PaginationItem, PaginationLink } from 'reactstrap'
 import { Spinner } from 'reactstrap';
 import {connect} from 'react-redux'
 import {getJob} from './../redux/action/job'
@@ -29,17 +29,6 @@ class JobItems extends Component{
 
     componentDidMount(){
       this.getData();
-      // .then(data=>{
-      //   this.setState(
-      //     {
-      //      data,
-      //     //  next:data.next,
-      //     //  previous:data.prev,
-      //     //  tot : data.total_data,
-      //      isLoading:false
-      //     }
-      //      )
-      //   })
       }
       
 
@@ -119,7 +108,7 @@ render() {
   return (
     
     <div>
-    <Form inline className="Search-header shadow-lg p-3 mb-5 bg-white rounded">
+    <Form inline className="Search-header">
        {/* search {data.name} */}
       <FormGroup>
         <Input type="text" name="name" id="name" placeholder="Search by name" className ="form-control" 
@@ -176,14 +165,18 @@ render() {
     <ul className="pagination justify-content-center">
     {
         this.state.previous === ' ' ? null :
-        <li className="page-item">
-         <a className="page-link" onClick={()=>this.buttonPress(this.props.job.prev)} tabindex="-1" aria-disabled="false">Previous</a>
-        </li>
-      }  
-        <li className="page-item">
-        {
-        this.state.next === ' ' ? null :<a className="page-link" onClick={()=>this.buttonPress(this.props.job.next)} tabindex="-1">Next</a>
-        }</li>
+        // <li className="page-item">
+        //  <a className="page-link" onClick={()=>this.buttonPress(this.props.job.prev)} tabindex="-1" aria-disabled="false">Previous</a>
+        // </li>
+        <Button color="primary" onClick={()=>this.buttonPress(this.props.job.prev)}> Previous </Button>
+      }
+      {
+        this.state.next === ' ' ? <Button color="danger" disabled> Next </Button> :
+        // <li className="page-item">
+        // <a className="page-link" onClick={()=>this.buttonPress(this.props.job.next)} tabindex="-1">Next</a>
+        // </li>
+        <Button color="danger" onClick={()=>this.buttonPress(this.props.job.next)}> Next </Button>
+      }
     </ul>
 </nav>
 </div>

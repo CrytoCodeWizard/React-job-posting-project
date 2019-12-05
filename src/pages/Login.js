@@ -3,9 +3,11 @@ import './../App.css'
 import axios from 'axios';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux';
 import { Container, Row, Col } from 'reactstrap';
+import {loginUser} from './../redux/action/user'
 
-export default class Login extends Component {
+class Login extends Component {
   constructor(props){
     super(props)
     this.state = {
@@ -20,12 +22,12 @@ export default class Login extends Component {
 
   async componentDidMount(){
     await localStorage.getItem('Authorization')
-    
   }
 
   getLogin = async(account) => {
-   const user = await axios.post('http://localhost:2000/user/login',(account))
-   return user.data 
+  //  const user = await axios.post('http://localhost:2000/user/login',(account))
+  //  return user.data 
+  await this.props.dispatch(loginUser(account))
   }
 
   handleEmailChange = event => {
@@ -43,16 +45,22 @@ export default class Login extends Component {
       email: this.state.email,
       password : this.state.password
     };
-
-    this.getLogin(account)
+    console.log(account)
+    this.props.dispatch(loginUser(account))
       .then(res => {
-        if(res.status === 200){
+        console.log(res.action.payload.status)
+        let status = res.action.payload.status;
+        if(status === 200){
           localStorage.setItem('Authorization',res.token)
           alert('Succes to Login')
           this.props.history.push(`postjobs/crudjob`);
+          window.location.reload()
+        }else{
+          alert('Email or Password is incorrect')
         }
       }).catch((err) => {
         alert('Email or Password is incorrect')
+        console.log(err)
         return
       })
   }
@@ -83,3 +91,8 @@ export default class Login extends Component {
   );
 }
 }
+const mapStateProps = state => ({
+  user : state.user
+})
+
+export default connect(mapStateProps)(Login);
