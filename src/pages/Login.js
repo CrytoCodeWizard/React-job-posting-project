@@ -69,7 +69,7 @@ class Login extends Component {
   return (
     <div className='Login-design text-dark shadow p-3 mb-5'>
     <Container>
-    <Label for="title" className='button_login text-center'>LOGIN</Label>
+    <Label for="title" className='text-center'>LOGIN</Label>
     <Row>
     <Col>
     <Form id="loginForm" method="post" onSubmit ={this.handleSubmit}>
