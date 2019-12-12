@@ -164,6 +164,20 @@
      border-radius:0;
 }
 
+.example1 {
+  border: 2px solid green;
+  padding: 25px;
+  background: #33ef3c;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.text-Login {
+  font-size: 20pt;
+  display: block;
+  font-weight: 700;
+} 
+
 .margin-form{
   margin-left: 100px;
   margin-right: 100px;

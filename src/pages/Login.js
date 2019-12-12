@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { Container, Row, Col } from 'reactstrap';
 import {loginUser} from './../redux/action/user'
+import Navbar from './../components/Navbar'
 
 class Login extends Component {
   constructor(props){
@@ -54,7 +55,7 @@ class Login extends Component {
           localStorage.setItem('Authorization',res.token)
           alert('Succes to Login')
           this.props.history.push(`postjobs/crudjob`);
-          window.location.reload()
+          // window.location.reload()
         }else{
           alert('Email or Password is incorrect')
         }
@@ -67,9 +68,9 @@ class Login extends Component {
 
   render() {
   return (
-    <div className='Login-design text-dark shadow p-3 mb-5'>
+    <div className='Login-design text-dark shadow p-3 mb-5 '>
     <Container>
-    <Label for="title" className='text-center'>LOGIN</Label>
+    <Label for="title" className='text-center text-Login'>LOGIN</Label>
     <Row>
     <Col>
     <Form id="loginForm" method="post" onSubmit ={this.handleSubmit}>

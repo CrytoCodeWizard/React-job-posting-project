@@ -27,24 +27,24 @@ class Navbar extends Component {
     this.getData().then(async res => {
       const token = await localStorage.getItem('Authorization')
       this.setState({
+        isLogin: true,
         data : res.data,
         token,
       })
       console.log(res.data)
+      if(token !== null){
+        this.setState({isLogin: true});
+      }else{
+        this.setState({isLogin: false});
+      }
     })
-    console.log(this.state)
-    if(this.state.token){
-      this.setState({isLogin : true})  
-    }else{
-      this.setState({isLogin : false})
-    }
   }
 
   removeToken = () => {
     localStorage.removeItem('Authorization')
-    this.props.history.push('/login')
     this.setState({isLogin:false})
-    window.location.reload()
+    this.props.history.push('/login')
+    // window.location.reload()
   }
   render(){
     return (
@@ -58,7 +58,7 @@ class Navbar extends Component {
 <span></span>
 <span></span>
 </button>
-{!this.state.token&&(
+{!this.state.isLogin&&(
     <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
     <ul className="navbar-nav">
         <li className="nav-item active ">
@@ -79,7 +79,7 @@ class Navbar extends Component {
        
     </div>
   )}
-  {this.state.token&&(
+  {this.state.isLogin&&(
      <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
      <ul className="navbar-nav">
      <li className="nav-item active">

@@ -71,7 +71,7 @@ class Signup extends Component {
   return (
     <div className='Login-design text-dark shadow p-3 mb-5'>
     <Container>  
-    <Label for="register" className='button_login text-center'>REGISTER</Label>
+    <Label for="register" className='text-Login text-center'>REGISTER</Label>
     <br></br>
     <Form id="register" method="post" onSubmit ={this.handleSubmit}>
     <FormGroup>
