@@ -252,7 +252,6 @@ class CrudJob extends Component {
     <Table responsive bordered>
     <thead>
       <tr>
-        <th>ID</th>
         <th>Job Name</th>
         <th>Image Company</th>
         <th>Company</th>
@@ -267,7 +266,6 @@ class CrudJob extends Component {
       
     {this.props.job.data.map((v,i)=>(  
       <tr key={i.toString()}>
-        <th scope="row">{v.id}</th>
         <td>{v.name}</td>
         <td> <img  src={v.logo} alt={v.name} width="60px" height="60px"/></td>
         <td>{v.company}</td>
