@@ -40,13 +40,13 @@ $ yarn start # start app
 
 # Interface
 
- <img src="screenshots/add.jpeg" width="256">&nbsp;&nbsp;&nbsp;
- <img src="screenshots/admin.jpeg" width="256">&nbsp;&nbsp;&nbsp;
- <img src="screenshots/admin.jpeg" width="256">&nbsp;&nbsp;&nbsp;
- <img src="screenshots/dashboard.jpeg" width="256">&nbsp;&nbsp;&nbsp;
- <img src="screenshots/detail.jpeg" width="256">&nbsp;&nbsp;&nbsp;
- <img src="screenshots/edit.jpeg" width="256">&nbsp;&nbsp;&nbsp;
- <img src="screenshots/login.jpeg" width="256">
+ <img src="screenshots/add.ong" width="256">&nbsp;&nbsp;&nbsp;
+ <img src="screenshots/admin.png" width="256">&nbsp;&nbsp;&nbsp;
+ <img src="screenshots/admin.png" width="256">&nbsp;&nbsp;&nbsp;
+ <img src="screenshots/dashboard.png" width="256">&nbsp;&nbsp;&nbsp;
+ <img src="screenshots/detail.png" width="256">&nbsp;&nbsp;&nbsp;
+ <img src="screenshots/edit.png" width="256">&nbsp;&nbsp;&nbsp;
+ <img src="screenshots/login.png" width="256">
 
 
 ## License and Support
