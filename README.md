@@ -40,7 +40,7 @@ $ yarn start # start app
 
 # Interface
 
- <img src="screenshots/add.ong" width="256">&nbsp;&nbsp;&nbsp;
+ <img src="screenshots/add.png" width="256">&nbsp;&nbsp;&nbsp;
  <img src="screenshots/admin.png" width="256">&nbsp;&nbsp;&nbsp;
  <img src="screenshots/admin.png" width="256">&nbsp;&nbsp;&nbsp;
  <img src="screenshots/dashboard.png" width="256">&nbsp;&nbsp;&nbsp;
