@@ -42,7 +42,7 @@ $ yarn start # start app
 
  <img src="screenshots/add.png" width="256">&nbsp;&nbsp;&nbsp;
  <img src="screenshots/admin.png" width="256">&nbsp;&nbsp;&nbsp;
- <img src="screenshots/dashboard.png" width="256">&nbsp;&nbsp;&nbsp;
+ <img src="screenshots/dasboard.png" width="256">&nbsp;&nbsp;&nbsp;
  <img src="screenshots/detail.png" width="256">&nbsp;&nbsp;&nbsp;
  <img src="screenshots/edit.png" width="256">&nbsp;&nbsp;&nbsp;
  <img src="screenshots/login.png" width="256">
