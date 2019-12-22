@@ -38,7 +38,7 @@ class JobItems extends Component{
     // }
 
     getData = async(page) => {
-      await this.props.dispatch(getJob(page !== undefined ? page : 1))
+      await this.props.dispatch(getJob(page !== undefined ? page : page))
     }
 
     goToDetail = (id)=>{
@@ -47,12 +47,12 @@ class JobItems extends Component{
 
     // buttonPress = async(page)=>{
     //   this.setState({isLoading:false}) 
-    //   this.getData(page).then(data=>{
+    //   await axios.get(page !== undefined ? page:`http://35.175.244.140:8080/job?page=${page}`).then(data=>{
     //     this.setState({data,next:data.next,previous:data.prev,tot : data.total_data,isLoading:false})
     //   })
     // }  
-    buttonPress = async()=>{
-      this.getData()    
+    buttonPress = async(page)=>{
+      this.getData(page)    
     }  
 
     queryNameChange = (e)=>{

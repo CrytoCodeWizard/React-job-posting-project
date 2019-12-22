@@ -23,7 +23,9 @@
   outline: none;
 }
 
-
+.button-crud {
+  display: inline-flex;
+}
 
 .search-company {
   width: 30%;

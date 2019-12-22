@@ -205,49 +205,45 @@ class CrudCompany extends Component {
     <React.Fragment>
     { 
       this.props.company.data.map((v,i)=>(  
-        <Table responsive> 
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Company Name</th>
-            <th>Image</th>
-            <th>Location</th>
-            <th>Description</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-           <th scope="row">{v.id}</th>
-           <td>{v.name}</td>
-           <td><img  src={v.logo} alt={v.name} width="50px" height="60px"/></td>
-           <td>{v.location}</td>
-           <td>{v.description}</td>
-           <td>
-            <Button className="card-text bg-success" onClick={() => this.toggleupdate(v)} ><i className="fa fa-edit"></i></Button>
-           <Button className="card-text bg-danger" onClick={()=> this.deleteData(v.id)}><i className="fa fa-trash"> </i></Button>
-           </td>
-          </tr>
-        </tbody>
-      </Table>  
+      //   <Table responsive> 
+      //   <thead>
+      //     <tr>
+      //       <th>Company Name</th>
+      //       <th>Image</th>
+      //       <th>Location</th>
+      //       <th>Action</th>
+      //     </tr>
+      //   </thead>
+      //   <tbody>
+      //     <tr>
+      //      <td>{v.name}</td>
+      //      <td><img  src={v.logo} alt={v.name}/></td>
+      //      <td>{v.location}</td>
+      //      <td className="button-crud">
+      //       <Button className="card-text bg-success" onClick={() => this.toggleupdate(v)} ><i className="fa fa-edit"></i></Button>
+      //       <Button className="card-text bg-danger" onClick={()=> this.deleteData(v.id)}><i className="fa fa-trash"> </i></Button>
+      //      </td>
+      //     </tr>
+      //   </tbody>
+      // </Table>  
 
-    // <div className="row no-gutters shadow-lg p-3 mb-5 bg-white rounded" key={i.toString()} >
-    // <div className="col-md-4">
-    //   <img  src={v.logo} className="card-img App-img" alt={v.name} width="120px" height="160px"/>
-    // </div>
+    <div className="row no-gutters shadow-lg p-3 mb-5 bg-white rounded" key={i.toString()} >
+    <div className="col-md-4">
+      <img  src={v.logo} className="card-img App-img" alt={v.name} width="120px" height="160px"/>
+    </div>
     
-    //   <div className="col-md-8">
-    //   <div className="card-body">
-    //     <h5 className="card-title" >{v.name}</h5>
-    //     <p className="card-text"><small className="text-muted">{v.location}</small></p>
-    //     <p className="card-text">{v.description}</p>
-    //     <Button className="card-text bg-success" onClick={() => this.toggleupdate(v)} ><i className="fa fa-edit"> Update </i></Button>
-    //     <Button className="card-text bg-danger"style={{ marginLeft : '10px' }} onClick={()=> this.deleteData(v.id)}><i className="fa fa-trash"> Delete </i></Button>
+      <div className="col-md-8">
+      <div className="card-body">
+        <h5 className="card-title" >{v.name}</h5>
+        <p className="card-text"><small className="text-muted">{v.location}</small></p>
+        <p className="card-text">{v.description}</p>
+        <Button className="card-text bg-success" onClick={() => this.toggleupdate(v)} ><i className="fa fa-edit"> Update </i></Button>
+        <Button className="card-text bg-danger"style={{ marginLeft : '10px' }} onClick={()=> this.deleteData(v.id)}><i className="fa fa-trash"> Delete </i></Button>
   
-    //   </div>
-  // </div>
+      </div>
+  </div>
 
-  //  </div> 
+   </div> 
   ))}
     {/* update modal */}
 

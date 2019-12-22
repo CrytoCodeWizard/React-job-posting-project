@@ -150,12 +150,6 @@ class CrudJob extends Component {
        cancelCourse = () => { 
         document.getElementById("register").reset();
       }
-   
-      // UpdateJob = async(id,dataJob) => {
-      //   const user = await axios.patch(`http://localhost:2000/job/${id}`,(dataJob))
-      //   return user.data 
-      //  }
-
 
       UpdateJob = async (id,dataJob) => {
         await this.props.dispatch(updateJob(id,dataJob))
@@ -249,7 +243,7 @@ class CrudJob extends Component {
 
     {!this.props.job.isLoading&&
     <React.Fragment>   
-    <Table responsive bordered>
+    {/* <Table responsive bordered>
     <thead>
       <tr>
         <th>Job Name</th>
@@ -257,31 +251,29 @@ class CrudJob extends Component {
         <th>Company</th>
         <th>Salary</th>
         <th>Location</th>
-        <th>Description</th>
         <th>Date Updated</th>
         <th>Action</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody> */}
       
-    {this.props.job.data.map((v,i)=>(  
+    {/* {this.props.job.data.map((v,i)=>(  
       <tr key={i.toString()}>
         <td>{v.name}</td>
         <td> <img  src={v.logo} alt={v.name} width="60px" height="60px"/></td>
         <td>{v.company}</td>
         <td>Rp.{v.salary}</td>
         <td>{v.location}</td>
-        <td>{v.description}</td>
         <td>{v.date_updated}</td>
-        <td> 
+        <td className="button-crud">   
         <Button className="card-text bg-success"  onClick={() => this.toggleupdate(v)}><i className="fa fa-edit"></i></Button>
         <Button className="card-text bg-danger" onClick={()=> this.deleteData(v.id)}><i className="fa fa-trash"></i></Button>
         </td>
       </tr>
     ))}
     </tbody>
-  </Table>  
-    {/* {this.props.job.data.map((v,i)=>(  
+  </Table>   */}
+    {this.props.job.data.map((v,i)=>(  
     <div className="row no-gutters shadow-lg p-3 mb-5 bg-white rounded" key={i.toString()} >
     <div className="col-md-4">
       <img  src={v.logo} className="card-img App-img" alt={v.name} width="120px" height="160px"/>
@@ -299,7 +291,7 @@ class CrudJob extends Component {
     </div>
 
    </div> 
-  ))} */}
+  ))}
   </React.Fragment>
 
 }

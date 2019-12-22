@@ -55,7 +55,7 @@ class Login extends Component {
           localStorage.setItem('Authorization',res.token)
           alert('Succes to Login')
           this.props.history.push(`postjobs/crudjob`);
-          // window.location.reload()
+          window.location.reload()
         }else{
           alert('Email or Password is incorrect')
         }

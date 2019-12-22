@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const IP = 'http://35.175.244.140:8080';
+const IP = 'http://3.92.2.117:8080';
 
 export const getJob = (query)=>{
     return{
