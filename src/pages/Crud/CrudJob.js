@@ -13,7 +13,6 @@ import {updateJob} from './../../redux/action/job'
 import {deleteJob} from './../../redux/action/job'
 import {getCompany} from './../../redux/action/company' 
 import {getCategories} from './../../redux/action/category'
-import TableAdmin from './../../components/TableAdmin'
 
 class CrudJob extends Component {
     constructor(props){
