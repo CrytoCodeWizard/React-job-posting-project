@@ -46,13 +46,3 @@ $ yarn start # start app
  <img src="screenshots/detail.png" width="256">&nbsp;&nbsp;&nbsp;
  <img src="screenshots/edit.png" width="256">&nbsp;&nbsp;&nbsp;
  <img src="screenshots/login.png" width="256">
-
-
-## License and Support
-
-For Bug report, please contact me
-[FakhrurR](https://github.com/FakhrurR 'FakhrurR')
-
-MIT
-
-Copyright © 2019 by Fakhrur Rijal
